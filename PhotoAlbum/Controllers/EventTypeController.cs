@@ -48,10 +48,10 @@ namespace PhotoAlbum.Controllers
                 context.EventTypes.Add(eventType);
                 context.SaveChanges();
 
-                return View(addEventTypeViewModel);
+                return Redirect("/EventType");
             }
 
-            return View();
+            return View(addEventTypeViewModel);
         }
     }
 }

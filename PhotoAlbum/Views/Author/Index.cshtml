@@ -6,34 +6,38 @@
 
 <h1>@ViewData["Title"]</h1>
 
-@foreach (Author author in Model)
-{
-    <table>
-        <thead>
-            <tr>
-                <td>Name</td>
-                <td>LastName</td>
-                <td>Professional</td>
-            </tr>
-        </thead>
+<table class="table">
+        <tr>
+            <th>Name</th>
+            <th>LastName</th>
+            <th>Professional</th>
+        </tr>
+    @foreach (Author author in Model)
+    {
         <tr>
             <td>@author.Name</td>
             <td>@author.LastName</td>
-            
-        @{ 
-            string pro;
-            if (author.Professional.Equals(false))
-            {
-                pro = "No";
-            }
-            else
-            {
-                pro = "Yes";
 
-            }
+                @{
+                string pro;
+                if (author.Professional.Equals(false))
+                {
+                    pro = "No";
+                }
+                else
+                {
+                    pro = "Yes";
+                }
             }
             <td>@pro<td>
         </tr>
-    </table>
+    }
+</table>
 
+
+@if (Model.Count == 0)
+{
+    <p>No author yet!</p>
 }
+
+<a asp-controller="Author" asp-action="Add">Add</a>

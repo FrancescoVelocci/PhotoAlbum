@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PhotoAlbum.Data;
 using PhotoAlbum.Models;
 using PhotoAlbum.ViewModels;
@@ -24,7 +25,7 @@ namespace PhotoAlbum.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            List<Event> events = context.Events.ToList();
+            List<Event> events = context.Events.Include(i => i.EventType).ToList();
 
             return View(events);
         }
@@ -48,7 +49,7 @@ namespace PhotoAlbum.Controllers
                 Event newEvent = new Event
                 {
                     Name = addEventViewModel.Name,
-                    Description = addEventViewModel.Name,
+                    Description = addEventViewModel.Description,
                     EventType = newEventType,
                 };
 

@@ -62,7 +62,7 @@ namespace PhotoAlbum.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(AddPeopleViewModel addPeopleViewModel)
+        public IActionResult Add(AddPeopleViewModel addPeopleViewModel, string gender, string relation)
         {
             if (ModelState.IsValid)
             {
@@ -70,9 +70,9 @@ namespace PhotoAlbum.Controllers
                 {
                     Name = addPeopleViewModel.Name,
                     LastName = addPeopleViewModel.LastName,
-                    Gender = addPeopleViewModel.Gender,
-                    Birthday = addPeopleViewModel.Birthday.Date,
-                    Relation = addPeopleViewModel.Relation
+                    Gender = gender,
+                    Birthday = addPeopleViewModel.Birthday,
+                    Relation = relation
                 };
 
                 context.PeopleDb.Add(people);

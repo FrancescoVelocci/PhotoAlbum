@@ -22,9 +22,9 @@
         <span asp-validation-for="LastName"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Gender">Gender</label>
-        <select>
+    <div class="dropdown">
+        <label name="gender">Gender</label>
+        <select name="gender">
             @foreach (string gender in ViewBag.GenderList)
             {
                 <option value="@gender">@gender</option>
@@ -32,9 +32,9 @@
         </select>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Relation">Relation</label>
-        <select>
+    <div class="dropdown">
+        <label name="relation">Relation</label>
+        <select name="relation">
             @foreach (string relation in ViewBag.RelationList)
             {
                 <option value="@relation">@relation</option>

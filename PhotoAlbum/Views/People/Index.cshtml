@@ -6,19 +6,16 @@
 
 <h1>@ViewData["Title"]</h1>
 
-
-@foreach (var people in Model)
-{
-<table>
-    <thead>
-        <tr>
-            <td>Name</td>
-            <td>LastName</td>
-            <td>Gender</td>
-            <td>Birthday</td>
-            <td>Relation</td>
-        </tr>
-    </thead>
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>LastName</th>
+        <th>Gender</th>
+        <th>Birthday</th>
+        <th>Relation</th>
+    </tr>
+    @foreach (var people in Model)
+    {
     <tr>
         <td>@people.Name</td>
         <td>@people.LastName</td>
@@ -26,7 +23,12 @@
         <td>@people.Birthday</td>
         <td>@people.Relation</td>
     </tr>
+    }
 </table>
+
+@if (Model.Count == 0)
+{
+    <p>No people yet!</p>
 }
 
-<a asp-controller="People" asp-action="Add">Add People</a>
+<a asp-controller="People" asp-action="Add">Add</a>

@@ -10,15 +10,13 @@ namespace PhotoAlbum.ViewModels
     public class AddAuthorViewModel
     {
         [Required]
-        [Display(Name = "Author's Name")]
+        [Display(Name = "Name")]
         public string Name { get; set; }
 
         [Required]
-        [Display(Name = "Author's LastName")]
+        [Display(Name = "LastName")]
         public string LastName { get; set; }
 
-        [Required]
-        [Display(Name = "Professional")]
         public bool Professional { get; set; }
     }
 }

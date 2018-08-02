@@ -7,186 +7,35 @@
 
 <h1>@ViewData["Title"]</h1>
 
-@{
-    int numberOfColumns = 3;
-    int numberOfPicture = Model.Count();
-    // numberOfRows formula get the number of row for the maximum number in numberOfPicture divisible for 3
-    int numberOfRows = (numberOfPicture - (numberOfPicture % numberOfColumns)) / numberOfColumns;
-}
-
-
 
 <p>Total piture number: @Model.Count()</p><br />
 
 
 <table width="1000">
-    @if (numberOfPicture % numberOfColumns == 0)
+    <thead>
+        <tr>
+            <td width="15%"> </td>
+            <td width="10%"> </td>
+            <td>Favorite</td>
+            <td>Location</td>
+            <td>Place</td>
+            <td>Event</td>
+            <td>Author</td>
+            <td>People</td>
+        </tr>
+    </thead>
+
+    @foreach (Picture picture in Model)
     {
-        @for (int i = (Model.Count() - 1); i >= 0; i -= 3)
-        {
     <tr>
-        <td width="8%"><img src="@Model.ElementAt(i).Name" alt="Pic not found" height="60" width="60" /></td>
-        <td width="25%">
-            <table>
-                <tr>
-                    <td>Location: </td>
-                </tr>
-                <tr>
-                    <td>Author: </td>
-                </tr>
-            </table>
-        </td>
-        <td width="8%"><img src="@Model.ElementAt(i - 1).Name" alt="Pic not found" height="60" width="60" /></td>
-        <td width="25%">
-            <table>
-                <tr>
-                    <td>Location: </td>
-                </tr>
-                <tr>
-                    <td>Author: </td>
-                </tr>
-            </table>
-        </td>
-        <td width="8%"><img src="@Model.ElementAt(i - 2).Name" alt="Pic not found" height="60" width="60" /></td>
-        <td width="25%">
-            <table>
-                <tr>
-                    <td>Location: </td>
-                </tr>
-                <tr>
-                    <td>Author: </td>
-                </tr>
-            </table>
-        </td>
+        <td>@picture.Date.Date</td>
+        <td><img src="@picture.Name" alt="Pic not found" height="60" width="60" /></td>
+        <td>@picture.Favorite</td>
+        <td>Location</td>
+        <td>Place</td>
+        <td>Event</td>
+        <td>Author</td>
+        <td>People</td>
     </tr>
-        }
     }
-
-
-    <!-- Add 1 row and 1 element that exceede the maximum number divisible by 3 in numberOfPicture  -->
-    @if (numberOfPicture % numberOfColumns == 1)
-    {
-        @for (int i = (Model.Count() - 1); i > 0; i -= 3)
-        {
-            <tr>
-                <td width="8%"><img src="@Model.ElementAt(i).Name" alt="Pic not found" height="60" width="60" /></td>
-                <td width="25%">
-                    <table>
-                        <tr>
-                            <td>Location: </td>
-                        </tr>
-                        <tr>
-                            <td>Author: </td>
-                        </tr>
-                    </table>
-                </td>
-                <td width="8%"><img src="@Model.ElementAt(i - 1).Name" alt="Pic not found" height="60" width="60" /></td>
-                <td width="25%">
-                    <table>
-                        <tr>
-                            <td>Location: </td>
-                        </tr>
-                        <tr>
-                            <td>Author: </td>
-                        </tr>
-                    </table>
-                </td>
-                <td width="8%"><img src="@Model.ElementAt(i - 2).Name" alt="Pic not found" height="60" width="60" /></td>
-                <td width="25%">
-                    <table>
-                        <tr>
-                            <td>Location: </td>
-                        </tr>
-                        <tr>
-                            <td>Author: </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        }
-        <tr>
-            <td><img src="@Model.ElementAt(0).Name" alt="Pic not found" height="60" width="60" /></td>
-            <td>
-                <table>
-                    <tr>
-                        <td>Location: </td>
-                    </tr>
-                    <tr>
-                        <td>Author: </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    }
-
-    <!-- Add 1 row and 2 element that exceede the maximum number divisible by 3 in numberOfPicture  -->
-    @if (numberOfPicture % numberOfColumns == 2)
-    {
-        @for (int i = (Model.Count() - 1); i > 1; i -= 3)
-        {
-        <tr>
-            <td width="8%"><img src="@Model.ElementAt(i).Name" alt="Pic not found" height="60" width="60" /></td>
-            <td width="25%">
-                <table>
-                    <tr>
-                        <td>Location: </td>
-                    </tr>
-                    <tr>
-                        <td>Author: </td>
-                    </tr>
-                </table>
-            </td>
-            <td width="8%"><img src="@Model.ElementAt(i - 1).Name" alt="Pic not found" height="60" width="60" /></td>
-            <td width="25%">
-                <table>
-                    <tr>
-                        <td>Location: </td>
-                    </tr>
-                    <tr>
-                        <td>Author: </td>
-                    </tr>
-                </table>
-            </td>
-            <td width="8%"><img src="@Model.ElementAt(i - 2).Name" alt="Pic not found" height="60" width="60" /></td>
-            <td width="25%">
-                <table>
-                    <tr>
-                        <td>Location: </td>
-                    </tr>
-                    <tr>
-                        <td>Author: </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        }
-        <tr>
-            <td><img src="@Model.ElementAt(1).Name" alt="Pic not found" height="60" width="60" /></td>
-            <td>
-                <table>
-                    <tr>
-                        <td>Location: </td>
-                    </tr>
-                    <tr>
-                        <td>Author: </td>
-                    </tr>
-                </table>
-            </td>
-            <td><img src="@Model.ElementAt(0).Name" alt="Pic not found" height="60" width="60" /></td>
-            <td>
-                <table>
-                    <tr>
-                        <td>Location: </td>
-                    </tr>
-                    <tr>
-                        <td>Author: </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    }
-
-
-
 </table>
-
