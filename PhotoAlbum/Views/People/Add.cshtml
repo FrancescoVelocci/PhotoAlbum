@@ -1,0 +1,53 @@
+﻿@model PhotoAlbum.ViewModels.AddPeopleViewModel
+
+@{ 
+    ViewData["Title"] = "Add People";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+
+
+<form method="post" asp-controller="People" asp-action="Add">
+
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input class="form-control" asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="LastName"></label>
+        <input class="form-control" asp-for="LastName" />
+        <span asp-validation-for="LastName"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Gender">Gender</label>
+        <select>
+            @foreach (string gender in ViewBag.GenderList)
+            {
+                <option value="@gender">@gender</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Relation">Relation</label>
+        <select>
+            @foreach (string relation in ViewBag.RelationList)
+            {
+                <option value="@relation">@relation</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Birthday"></label>
+        <input class="form-control" asp-for="Birthday" />
+        <span asp-validation-for="Birthday"></span>
+    </div>
+
+    <input type="submit" value="Add People" />
+
+</form>

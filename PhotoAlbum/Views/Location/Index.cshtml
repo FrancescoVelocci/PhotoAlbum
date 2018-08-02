@@ -1,0 +1,30 @@
+﻿@model List<PhotoAlbum.Models.Location>
+
+<h1>Location</h1>
+
+<table class="table">
+
+    <tr>
+        <th>Nation</th>
+        <th>City</th>
+        <td><a asp-controller="Place">Place</a></td>
+    </tr>
+
+
+    @foreach (var location in Model)
+    {
+        <tr>
+            <td>@location.Nation</td>
+            <td>@location.City</td>
+            <td>@location.Place.Name</td>
+        </tr>
+    }
+</table>
+
+@if (Model.Count == 0)
+{
+    <p>No location yet!</p>
+}
+
+<p><a asp-controller="Location" asp-action="Add">Add</a> | <a asp-controller="Location" asp-action="Remove">Remove</a></p>
+

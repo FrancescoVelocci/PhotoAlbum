@@ -1,0 +1,17 @@
+﻿@model List<PhotoAlbum.Models.EventType>
+
+@{ ViewData["Title"] = "Event Type";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+
+@foreach (EventType eventType in Model)
+{
+    <ul>
+        <li>@eventType.Name</li>
+    </ul>
+}
+
+<a asp-controller="EventType" asp-action="Add">Add Event Type</a>
+

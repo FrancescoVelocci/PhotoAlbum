@@ -1,0 +1,17 @@
+﻿@model PhotoAlbum.ViewModels.AddEventTypeViewModel
+
+@{ ViewData["Title"] = "Add Event Type";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="post" asp-controller="EventType" asp-action="Add">
+
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input class="form-control" asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </div>
+
+    <input type="submit" value="Add Place" />
+</form>

@@ -1,0 +1,27 @@
+﻿@model List<PhotoAlbum.Models.Event>
+
+@{
+    ViewData["Title"] = "Events";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@foreach (Event anEvent in Model)
+{
+    <table>
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Event Type</td>
+                <td>Description</td>
+            </tr>
+        </thead>
+        <tr>
+            <td>@anEvent.Name</td>
+            <td>@anEvent.EventType</td>
+            <td>@anEvent.Description</td>
+        </tr>
+    </table>
+}
+
+<a asp-controller="Event" asp-action="Add">Add Event</a>

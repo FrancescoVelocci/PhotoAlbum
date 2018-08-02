@@ -1,0 +1,26 @@
+﻿@using PhotoAlbum.Models;
+
+@{
+    ViewData["Title"] = "Upload Pictures";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+
+<form method="post" enctype="multipart/form-data" asp-controller="Upload" asp-action="Add">
+    <p>Upload one or more pictures:</p>
+    <input type="file" name="files" multiple />
+    <input type="hidden" name="name" />
+    <input type="submit" value="Add" />
+</form>
+
+
+
+
+
+
+
+
+
+
+

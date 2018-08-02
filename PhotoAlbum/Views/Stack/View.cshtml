@@ -1,0 +1,15 @@
+﻿@model List<PhotoAlbum.Models.Picture>
+
+@{
+    ViewData["Title"] = "Picture";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+
+@foreach (Picture picture in Model)
+{
+    <ul>
+        <li><img src="@picture.Name" alt="Pic not found" height="60" width="60" /></li>
+    </ul>
+}

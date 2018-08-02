@@ -1,0 +1,33 @@
+﻿@model PhotoAlbum.ViewModels.AddLocationViewModel
+
+<h1>Add Location</h1>
+
+<form asp-controller="Location" asp-action="Add" method="POST">
+
+    <div class="form-group">
+        <label asp-for="Nation"></label>
+        <input class="form-control" asp-for="Nation" />
+        <span asp-validation-for="Nation"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="City"></label>
+        <input class="form-control" asp-for="City" />
+        <span asp-validation-for="City"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PlaceID">Place Type</label>
+        <select asp-for="PlaceID" asp-items="Model.Places"></select>
+        <span asp-validation-for="PlaceID"></span>
+    </div>
+    <a asp-controller="Place" asp-action="Add">Add a new Place Type</a> | Edit | Remove
+
+    <div class="form-group">
+        <label asp-for="PlaceName">Place Name</label>
+        <input class="form-control" asp-for="PlaceName" />
+    </div>
+
+    <input type="submit" value="Add Place" />
+
+</form>

@@ -1,0 +1,26 @@
+﻿@model List<PhotoAlbum.Models.Stack>
+
+
+@{
+    ViewData["Title"] = "Picture's Stacks";
+}
+
+<h1>@ViewData["Title"]</h1>
+<h3>Select a Stack of unorganized pictures and add info to it.</h3>
+
+<ul>
+    <li>
+        <strong>Stack created on @Model[Model.Count()-1].Name.</strong>
+        <strong><a asp-controller="Stack" asp-action="View" asp-route-id="@Model[0].ID">open</a></strong>
+    </li>
+</ul>
+
+<ul>
+    @for (int i = Model.Count() - 2; i >= 0; i -= 1)
+    {
+        <li>
+            Stack created on @Model[i].Name.
+            <a asp-controller="Stack" asp-action="View" asp-route-id="@Model[i].ID">open</a>
+        </li>
+    }
+</ul>

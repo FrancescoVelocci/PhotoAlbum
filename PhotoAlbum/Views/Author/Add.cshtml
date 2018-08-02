@@ -1,0 +1,29 @@
+﻿@model PhotoAlbum.ViewModels.AddAuthorViewModel
+
+@{
+    ViewData["Title"] = "Authors";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="get" asp-controller="Author" asp-action="Add">
+
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input class="form-control" asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="LastName"></label>
+        <input class="form-control" asp-for="LastName" />
+        <span asp-validation-for="LastName"></span>
+    </div>
+
+    <div class="checkbox">
+        <label asp-for="Professional"></label>
+        <input asp-for="Professional" />
+    </div>
+
+    <input type="submit" value="Add Author" />
+</form>

@@ -1,0 +1,13 @@
+﻿@model List<PhotoAlbum.Models.Place>
+
+<h1>Places</h1>
+
+
+@foreach (var place in Model)
+{
+    <ul>
+        <li>@place.Name</li>
+    </ul>
+}
+
+<a asp-controller="Place" asp-action="Add">Add Place</a>

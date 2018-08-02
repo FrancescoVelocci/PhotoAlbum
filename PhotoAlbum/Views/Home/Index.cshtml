@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1>PhotoAlbum</h1>
+
+
+    <table>
+        <col width="200">
+        <col width="200">
+        <thead>
+            <tr>
+                <td><h4>ORGANIZE</h4></td>
+                <td><h4>SEARCH</h4></td>
+            </tr>
+        </thead>
+        <tr>
+            <td><a asp-controller="Upload">Upload a Stack of Pictures</a></td>
+            <td><a asp-controller="Picture">View Pictures</a></td>
+        </tr>
+        <tr>
+            <td><a asp-controller="Stack">Add info to your Pictures</a></td>
+            <td><a asp-controller="Album">View Albums</a></></td>
+        </tr>
+        <tr>
+            <td><a asp-controller="Album" asp-action="Add">Create a new Album</a></td>
+            <td></td>
+        </tr>
+    </table>
+
+<br />
+<br/>
+<h4>Manage Picture Information</h4>
+<a asp-controller="Location">Locations</a> | <a asp-controller="Event">Events</a> | <a asp-controller="Author">Authors</a> | <a asp-controller="People">People</a>
