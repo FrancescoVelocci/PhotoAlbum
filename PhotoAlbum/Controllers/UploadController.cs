@@ -51,7 +51,7 @@ namespace PhotoAlbum.Controllers
                     var fileName = Path.Combine(he.WebRootPath, Path.GetFileName(file.FileName));
                     file.CopyTo(new FileStream(fileName, FileMode.Create));
                     string pathName = "/" + Path.GetFileName(file.FileName).ToString();
-                    FileInfo fileInfo = new FileInfo(pathName);
+                    FileInfo fileInfo = new FileInfo(fileName);
                     DateTime dateTime = fileInfo.CreationTime;
 
                     Picture newPicture = new Picture();

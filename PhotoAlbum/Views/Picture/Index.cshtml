@@ -8,27 +8,40 @@
 <h1>@ViewData["Title"]</h1>
 
 
-<p>Total piture number: @Model.Count()</p><br />
+<p>You have @Model.Count() pictures.</p><br />
 
+<table>
+    <tr>
+        <th>SORT BY</th>
+        <th></th>
+    </tr>
+    <tr>
+        <td>Date</td>
+        <td>
+            @Html.ActionLink("Descendent", "Index", new { sortOrder = ViewBag.DateSortParmDesc }) |
+            @Html.ActionLink("Ascendent", "Index", new { sortOrder = ViewBag.DateSortParmAsc })
+        </td>
+    </tr>
+</table>
 
-<table width="1000">
-    <thead>
+<br />
+
+<table class="table">
         <tr>
-            <td width="15%"> </td>
-            <td width="10%"> </td>
-            <td>Favorite</td>
-            <td>Location</td>
-            <td>Place</td>
-            <td>Event</td>
-            <td>Author</td>
-            <td>People</td>
+            <th> </th>
+            <th> </th>
+            <th>Favorite</th>
+            <th>Location</th>
+            <th>Place</th>
+            <th>Event</th>
+            <th>Author</th>
+            <th>People</th>
         </tr>
-    </thead>
 
     @foreach (Picture picture in Model)
     {
     <tr>
-        <td>@picture.Date.Date</td>
+        <td>@picture.Date.ToShortDateString()</td>
         <td><img src="@picture.Name" alt="Pic not found" height="60" width="60" /></td>
         <td>@picture.Favorite</td>
         <td>Location</td>

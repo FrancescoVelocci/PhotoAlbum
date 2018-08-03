@@ -22,10 +22,27 @@ namespace PhotoAlbum.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string sortOrder)
         {
-            List<Picture> pictures = context.Pictures.ToList();
-            return View(pictures);
+            ViewBag.DateSortParmDesc = sortOrder == "Date" ? "date_desc" : "DateDesc";
+            ViewBag.DateSortParmAsc = sortOrder == "Date" ? "date_asc" : "DateAsc";
+            var pictures = from pic in context.Pictures
+                          select pic;
+            
+            //List<Picture> pictures = context.Pictures.ToList();
+
+            switch(sortOrder)
+            {
+                case "DateDesc":
+                    pictures = pictures.OrderByDescending(pic => pic.Date);
+                    break;
+
+                case "DateAsc":
+                    pictures = pictures.OrderBy(pic => pic.Date);
+                    break;
+            }
+
+            return View(pictures.ToList());
         }
     }
 }

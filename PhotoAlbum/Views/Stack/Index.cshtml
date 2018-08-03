@@ -18,9 +18,9 @@
 <ul>
     @for (int i = Model.Count() - 2; i >= 0; i -= 1)
     {
-        <li>
-            Stack created on @Model[i].Name.
-            <a asp-controller="Stack" asp-action="View" asp-route-id="@Model[i].ID">open</a>
-        </li>
+    <li>
+        Stack created on @Model[i].Name;
+        <a asp-controller="Stack" asp-action="View" asp-route-id="@Model[i].ID">open</a>
+    </li>
     }
 </ul>
