@@ -1,0 +1,68 @@
+﻿@model PhotoAlbum.ViewModels.AddPictureLocationViewModel
+
+
+@{
+    ViewData["Title"] = "Add Location Info to your Pictures";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>You have @Model.PictureIDs.Count() pictures left.</p><br />
+
+<table>
+    <tr>
+        <th>SORT BY</th>
+        <th></th>
+    </tr>
+    <tr>
+        <td>Date</td>
+        <td>
+            @Html.ActionLink("Descendent", "AddPictureLocation?", new { ID = ViewBag.StackID, sortOrder = ViewBag.DateSortParmDesc }) |
+            @Html.ActionLink("Ascendent", "AddPictureLocation?", new { ID = ViewBag.StackID, sortOrder = ViewBag.DateSortParmAsc })
+        </td>
+    </tr>
+</table>
+<br />
+
+<form method="post" asp-controller="Picture" asp-action="AddPictureLocation">
+
+    <input type="hidden" name="StackID" value="@Model.StackID" />
+
+    <div class="form-group">
+        <label asp-for="LocationID">Location</label>
+        <select asp-for="LocationID" asp-items="Model.Locations"></select>
+    </div>
+
+    <br />
+
+    <div class="form-group">
+        <table class="table">
+            <tr>
+                <th>id</th>
+                <th> </th>
+                <th> </th>
+                <th>Favorite</th>
+                <th>Select Picture</th>
+            </tr>
+
+            @for (int i = 0; i < Model.PictureIDs.Count(); i++)
+            {
+                <tr>
+                    <td>@Model.PictureIDs[i]</td>
+                    <td>@Model.ViewPictureHelper[i].PictureDate.ToShortDateString()</td>
+                    <td><img src="@Model.ViewPictureHelper[i].PictureName" alt="Pic not found" height="60" width="60" /></td>
+                    <td>@Model.ViewPictureHelper[i].PictureFavorite</td>
+                    <td>
+                        <input type="checkbox" name="PictureIDs" value="@Model.PictureIDs[i]" />
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+    <input type="submit" value="Add Location" />
+
+</form>
+
+
+

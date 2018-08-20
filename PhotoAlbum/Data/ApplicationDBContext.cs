@@ -19,18 +19,22 @@ namespace PhotoAlbum.Data
         public DbSet<Event> Events { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<People> PeopleDb { get; set; }
+        public DbSet<PictureLocation> PictureLocations { get; set; }
+        public DbSet<PictureEvent> PictureEvents { get; set; }
+        public DbSet<PictureAuthor> PictureAuthors { get; set; }
+        public DbSet<PicturePeople> PicturePeopleDb { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
+            modelBuilder.Entity<PictureLocation>().HasKey(p => new { p.LocationID, p.PictureID });
+            modelBuilder.Entity<PictureEvent>().HasKey(p => new { p.EventID, p.PictureID });
+            modelBuilder.Entity<PictureAuthor>().HasKey(p => new { p.AuthorID, p.PictureID });
+            modelBuilder.Entity<PicturePeople>().HasKey(p => new { p.PeopleID, p.PictureID });
         }
     }
 }

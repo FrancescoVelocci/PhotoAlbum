@@ -1,0 +1,66 @@
+﻿@model PhotoAlbum.ViewModels.ViewPictureViewModel
+
+
+@{
+    ViewData["Title"] = "Photo Stack";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>You have @Model.ViewPictureHelpers.Count() pictures in this Stack.</p><br />
+
+<a href="/Picture/AddPictureLocation?StackID=@ViewBag.StackID"> Add Locations info to the Picture </a>
+
+<table>
+    <tr>
+        <th>SORT BY</th>
+        <th></th>
+    </tr>
+    <tr>
+        <td>Date</td>
+        <td>
+            @Html.ActionLink("Descendent", "Stack", new { ID = ViewBag.StackID, sortOrder = ViewBag.DateSortParmDesc }) |
+            @Html.ActionLink("Ascendent", "Stack", new { ID = ViewBag.StackID, sortOrder = ViewBag.DateSortParmAsc })
+        </td>
+    </tr>
+</table>
+<br />
+
+<table class="table">
+    <tr>
+        <th> </th>
+        <th> </th>
+        <th>Favorite</th>
+        <th>Location</th>
+        <th>Place</th>
+        <th>Event</th>
+        <th>Author</th>
+        <th>People</th>
+    </tr>
+
+    @foreach (var item in Model.ViewPictureHelpers)
+    {
+    <tr>
+        <td>@item.PictureDate.ToShortDateString()</td>
+        <td><img src="@item.PictureName" alt="Pic not found" height="60" width="60" /></td>
+        <td>@item.PictureFavorite</td>
+        <td>
+            @item.PictureNation<br />
+            @item.PictureCity
+        </td>
+        <td>
+            @item.PicturePlaceType<br />
+            @item.PicturePlaceName
+        </td>
+        <td>
+            @item.PictureEventType<br />
+            @item.PictureEventName
+        </td>
+        <td>
+            @item.PictureAuthorName
+            @item.PictureAuthorLastName
+        </td>
+        <td>People</td>
+    </tr>
+    }
+</table>

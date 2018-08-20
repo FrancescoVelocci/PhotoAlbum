@@ -8,7 +8,7 @@ using PhotoAlbum.Data;
 using PhotoAlbum.Models;
 using PhotoAlbum.ViewModels;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+// STACK Controller
 
 namespace PhotoAlbum.Controllers
 {
@@ -29,10 +29,17 @@ namespace PhotoAlbum.Controllers
         }
 
         [HttpGet]
-        public IActionResult View(int ID)
+        public IActionResult ViewStack(string ID)
         {
-            List<Picture> pictures = context.Pictures.Where(p => p.StackID == ID).ToList();
-            return View(pictures);
+            if (ID == null)
+            {
+                return Redirect("/Picture/Stack");
+            }
+
+            else
+            {
+                return Redirect(string.Format("/Picture/Stack?ID={0}", ID.ToString()));
+            }
         }
     }
 }

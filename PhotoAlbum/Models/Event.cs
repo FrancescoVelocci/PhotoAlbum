@@ -13,5 +13,7 @@ namespace PhotoAlbum.Models
 
         public int EventTypeID { get; set; }
         public EventType EventType { get; set; }
+
+        public IList<PictureEvent> PictureEvent { get; set; }
     }
 }

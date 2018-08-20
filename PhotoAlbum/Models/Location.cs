@@ -14,5 +14,7 @@ namespace PhotoAlbum.Models
 
         public int PlaceID { get; set; }
         public Place Place { get; set; }
+
+        public IList<PictureLocation> PictureLocations { get; set; }
     }
 }

@@ -21,5 +21,13 @@ namespace PhotoAlbum.Models
 
         public int StackID { get; set; }
         public Stack Stack { get; set; }
+
+        public IList<PictureAuthor> PictureAuthors { get; set; }
+
+        public IList<PictureLocation> PictureLocations { get; set; }
+
+        public IList<PictureEvent> PictureEvent { get; set; }
+
+        public IList<PicturePeople> PicturePeople { get; set; }
     }
 }

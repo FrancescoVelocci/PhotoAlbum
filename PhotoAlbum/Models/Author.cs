@@ -11,5 +11,7 @@ namespace PhotoAlbum.Models
         public string Name { get; set; }
         public string LastName { get; set; }
         public bool Professional { get; set; }
+
+        IList<PictureAuthor> PictureAuthors { get; set; }
     }
 }

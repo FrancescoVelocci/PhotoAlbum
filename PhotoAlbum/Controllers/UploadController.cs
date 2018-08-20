@@ -58,6 +58,7 @@ namespace PhotoAlbum.Controllers
                     newPicture.Name = pathName;
                     newPicture.StackID = newStack.ID;
                     newPicture.Date = dateTime;
+
                     context.Pictures.Add(newPicture);
                 }
                 context.SaveChanges();

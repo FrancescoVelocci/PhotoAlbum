@@ -13,5 +13,7 @@ namespace PhotoAlbum.Models
         public string Gender { get; set; }
         public string Relation { get; set; }
         public DateTime Birthday { get; set; }
+
+        public IList<PicturePeople> PicturePeople { get; set; }
     }
 }

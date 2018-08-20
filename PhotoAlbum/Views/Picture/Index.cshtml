@@ -1,5 +1,4 @@
-﻿@model IEnumerable<PhotoAlbum.Models.Picture>
-
+﻿@model PhotoAlbum.ViewModels.ViewPictureViewModel
 
 @{
     ViewData["Title"] = "Pictures";
@@ -8,7 +7,8 @@
 <h1>@ViewData["Title"]</h1>
 
 
-<p>You have @Model.Count() pictures.</p><br />
+<p>You have @Model.ViewPictureHelpers.Count() pictures.</p><br />
+
 
 <table>
     <tr>
@@ -27,28 +27,44 @@
 <br />
 
 <table class="table">
-        <tr>
-            <th> </th>
-            <th> </th>
-            <th>Favorite</th>
-            <th>Location</th>
-            <th>Place</th>
-            <th>Event</th>
-            <th>Author</th>
-            <th>People</th>
-        </tr>
-
-    @foreach (Picture picture in Model)
-    {
     <tr>
-        <td>@picture.Date.ToShortDateString()</td>
-        <td><img src="@picture.Name" alt="Pic not found" height="60" width="60" /></td>
-        <td>@picture.Favorite</td>
-        <td>Location</td>
-        <td>Place</td>
-        <td>Event</td>
-        <td>Author</td>
-        <td>People</td>
+        <th></th>
+        <th> </th>
+        <th> </th>
+        <th>Favorite</th>
+        <th>Location</th>
+        <th>Place</th>
+        <th>Event</th>
+        <th>Author</th>
+        <th>People</th>
     </tr>
+
+    @foreach (var item in Model.ViewPictureHelpers)
+    {
+        <tr>
+            <td>@item.PictureID</td>
+            <td>@item.PictureDate.ToShortDateString()</td>
+            <td><img src="@item.PictureName" alt="Pic not found" height="60" width="60" /></td>
+            <td>@item.PictureFavorite</td>
+            <td>
+                @item.PictureNation<br />
+                @item.PictureCity
+            </td>
+            <td>
+                @item.PicturePlaceType<br />
+                @item.PicturePlaceName
+            </td>
+            <td>
+                @item.PictureEventType<br />
+                @item.PictureEventName
+            </td>
+            <td>
+                @item.PictureAuthorName
+                @item.PictureAuthorLastName
+            </td>
+            <td>
+                   @item.PicturePeopleName
+            </td>
+        </tr>
     }
 </table>

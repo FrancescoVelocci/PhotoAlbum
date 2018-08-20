@@ -11,9 +11,10 @@ using System;
 namespace PhotoAlbum.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180816211859_MigrationOne")]
+    partial class MigrationOne
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,6 +112,8 @@ namespace PhotoAlbum.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("AuthorID");
+
                     b.Property<DateTime>("Date");
 
                     b.Property<string>("Description");
@@ -126,22 +129,11 @@ namespace PhotoAlbum.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("AuthorID");
+
                     b.HasIndex("StackID");
 
                     b.ToTable("Pictures");
-                });
-
-            modelBuilder.Entity("PhotoAlbum.Models.PictureAuthor", b =>
-                {
-                    b.Property<int>("AuthorID");
-
-                    b.Property<int>("PictureID");
-
-                    b.HasKey("AuthorID", "PictureID");
-
-                    b.HasIndex("PictureID");
-
-                    b.ToTable("PictureAuthors");
                 });
 
             modelBuilder.Entity("PhotoAlbum.Models.PictureEvent", b =>
@@ -168,19 +160,6 @@ namespace PhotoAlbum.Migrations
                     b.HasIndex("PictureID");
 
                     b.ToTable("PictureLocations");
-                });
-
-            modelBuilder.Entity("PhotoAlbum.Models.PicturePeople", b =>
-                {
-                    b.Property<int>("PeopleID");
-
-                    b.Property<int>("PictureID");
-
-                    b.HasKey("PeopleID", "PictureID");
-
-                    b.HasIndex("PictureID");
-
-                    b.ToTable("PicturePeopleDb");
                 });
 
             modelBuilder.Entity("PhotoAlbum.Models.Place", b =>
@@ -227,22 +206,14 @@ namespace PhotoAlbum.Migrations
 
             modelBuilder.Entity("PhotoAlbum.Models.Picture", b =>
                 {
-                    b.HasOne("PhotoAlbum.Models.Stack", "Stack")
-                        .WithMany("Pictures")
-                        .HasForeignKey("StackID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("PhotoAlbum.Models.PictureAuthor", b =>
-                {
                     b.HasOne("PhotoAlbum.Models.Author", "Author")
-                        .WithMany()
+                        .WithMany("Pictures")
                         .HasForeignKey("AuthorID")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("PhotoAlbum.Models.Picture", "Picture")
-                        .WithMany("PictureAuthors")
-                        .HasForeignKey("PictureID")
+                    b.HasOne("PhotoAlbum.Models.Stack", "Stack")
+                        .WithMany("Pictures")
+                        .HasForeignKey("StackID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -268,19 +239,6 @@ namespace PhotoAlbum.Migrations
 
                     b.HasOne("PhotoAlbum.Models.Picture", "Picture")
                         .WithMany("PictureLocations")
-                        .HasForeignKey("PictureID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("PhotoAlbum.Models.PicturePeople", b =>
-                {
-                    b.HasOne("PhotoAlbum.Models.People", "People")
-                        .WithMany("PicturePeople")
-                        .HasForeignKey("PeopleID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("PhotoAlbum.Models.Picture", "Picture")
-                        .WithMany("PicturePeople")
                         .HasForeignKey("PictureID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
