@@ -14,6 +14,6 @@ namespace PhotoAlbum.Models
         public string Relation { get; set; }
         public DateTime Birthday { get; set; }
 
-        public IList<PicturePeople> PicturePeople { get; set; }
+        //public IList<PicturePeople> PicturePeople { get; set; }
     }
 }

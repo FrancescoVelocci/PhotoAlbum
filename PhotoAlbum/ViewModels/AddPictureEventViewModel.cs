@@ -1,32 +1,30 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using PhotoAlbum.Models;
-using System;
 using PhotoAlbum.Helpers;
+using PhotoAlbum.Models;
 
 namespace PhotoAlbum.ViewModels
 {
-    public class AddPictureLocationViewModel
+    public class AddPictureEventViewModel
     {
-
         public List<ViewPictureHelper> ViewPictureHelper { get; set; }
-        public int LocationID { get; set; }
-        public List<SelectListItem> Locations { get; set; }
+        public int EventID { get; set; }
+        public List<SelectListItem> Events { get; set; }
 
         public List<int> PictureIDs { get; set; }
         public string StackID { get; set; }
 
-        public AddPictureLocationViewModel()
+        public AddPictureEventViewModel()
         {
 
         }
 
-        public AddPictureLocationViewModel(
+        public AddPictureEventViewModel(
                                             List<ViewPictureHelper> viewPictureHelpers,
-                                            IEnumerable<Location> locations,
+                                            IEnumerable<Event> events,
                                             List<int> pictureIDs,
                                             string stackID
                                            )
@@ -34,14 +32,14 @@ namespace PhotoAlbum.ViewModels
         {
             ViewPictureHelper = viewPictureHelpers;
 
-            Locations = new List<SelectListItem>();
+            Events = new List<SelectListItem>();
 
-            foreach (var i in locations)
+            foreach (var i in events)
             {
-                Locations.Add(new SelectListItem
+                Events.Add(new SelectListItem
                 {
                     Value = i.ID.ToString(),
-                    Text = i.Nation + ", " + i.City + " - " + i.Place.Name + ": " + i.PlaceName
+                    Text = i.EventType.Name + ": " + i.Name
                 });
             }
 
@@ -51,5 +49,4 @@ namespace PhotoAlbum.ViewModels
         }
     }
 }
-
 

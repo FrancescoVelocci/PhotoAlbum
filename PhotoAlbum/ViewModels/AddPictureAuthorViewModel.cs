@@ -1,32 +1,30 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using PhotoAlbum.Models;
-using System;
 using PhotoAlbum.Helpers;
+using PhotoAlbum.Models;
 
 namespace PhotoAlbum.ViewModels
 {
-    public class AddPictureLocationViewModel
+    public class AddPictureAuthorViewModel
     {
-
         public List<ViewPictureHelper> ViewPictureHelper { get; set; }
-        public int LocationID { get; set; }
-        public List<SelectListItem> Locations { get; set; }
+        public int AuthorID { get; set; }
+        public List<SelectListItem> Authors { get; set; }
 
         public List<int> PictureIDs { get; set; }
         public string StackID { get; set; }
 
-        public AddPictureLocationViewModel()
+        public AddPictureAuthorViewModel()
         {
 
         }
 
-        public AddPictureLocationViewModel(
+        public AddPictureAuthorViewModel(
                                             List<ViewPictureHelper> viewPictureHelpers,
-                                            IEnumerable<Location> locations,
+                                            IEnumerable<Author> authors,
                                             List<int> pictureIDs,
                                             string stackID
                                            )
@@ -34,14 +32,14 @@ namespace PhotoAlbum.ViewModels
         {
             ViewPictureHelper = viewPictureHelpers;
 
-            Locations = new List<SelectListItem>();
+            Authors = new List<SelectListItem>();
 
-            foreach (var i in locations)
+            foreach (var i in authors)
             {
-                Locations.Add(new SelectListItem
+                Authors.Add(new SelectListItem
                 {
                     Value = i.ID.ToString(),
-                    Text = i.Nation + ", " + i.City + " - " + i.Place.Name + ": " + i.PlaceName
+                    Text = i.Name + " " + i.LastName
                 });
             }
 

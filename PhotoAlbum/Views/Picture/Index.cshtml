@@ -24,8 +24,6 @@
     </tr>
 </table>
 
-<br />
-
 <table class="table">
     <tr>
         <th></th>
@@ -45,7 +43,31 @@
             <td>@item.PictureID</td>
             <td>@item.PictureDate.ToShortDateString()</td>
             <td><img src="@item.PictureName" alt="Pic not found" height="60" width="60" /></td>
-            <td>@item.PictureFavorite</td>
+
+            <td>
+                @if (item.PictureFavorite == false)
+                {
+                    <form method="post" asp-controller="Picture" asp-action="">
+                        <div class="form-group">
+                            <input type="hidden" name="IsFavorite" value="true" />
+                            <input type="hidden" name="PictureID" value="@item.PictureID" />
+                            <button class="heartWhite"> </button>
+                        </div>
+                    </form>
+                }
+
+                @if (item.PictureFavorite == true)
+                {
+                    <form method="post" asp-controller="Picture" asp-action="">
+                        <div class="form-group">
+                            <input type="hidden" name="IsFavorite" value="false" />
+                            <input type="hidden" name="PictureID" value="@item.PictureID" />
+                            <button class="heartRed"> </button>
+                        </div>
+                    </form>
+                }           
+            </td>
+
             <td>
                 @item.PictureNation<br />
                 @item.PictureCity
@@ -63,7 +85,10 @@
                 @item.PictureAuthorLastName
             </td>
             <td>
-                   @item.PicturePeopleName
+                @foreach (var i in @item.PicturePeopleIDs.Split(",").ToList())
+                {
+                    @i;<br />
+                }
             </td>
         </tr>
     }

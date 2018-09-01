@@ -1,42 +1,34 @@
-﻿@model PhotoAlbum.ViewModels.AddPictureLocationViewModel
+﻿@model PhotoAlbum.ViewModels.AddPicturePeopleViewModel
 
 
 @{
-    ViewData["Title"] = "Add Location Info to your Pictures";
+    ViewData["Title"] = "Add People Info to your Pictures";
 }
 
 <h1>@ViewData["Title"]</h1>
 
 <p>You have @Model.PictureIDs.Count() pictures left.</p><br />
 
-<table>
-    <tr>
-        <th>SORT BY</th>
-        <th></th>
-    </tr>
-    <tr>
-        <td>Date</td>
-        <td>
-            @Html.ActionLink("Descendent", "AddPictureLocation?", new { ID = ViewBag.StackID, sortOrder = ViewBag.DateSortParmDesc }) |
-            @Html.ActionLink("Ascendent", "AddPictureLocation?", new { ID = ViewBag.StackID, sortOrder = ViewBag.DateSortParmAsc })
-        </td>
-    </tr>
-</table>
-<br />
 
-<form method="post" asp-controller="Picture" asp-action="AddPictureLocation">
+<form method="post" asp-controller="Picture" asp-action="AddPicturePeople">
 
     <input type="hidden" name="StackID" value="@Model.StackID" />
 
     <div class="form-group">
-        <label asp-for="LocationID">Location</label>
-        <select asp-for="LocationID" asp-items="Model.Locations"></select>
-        <a href="/Location/Add"> Add a new Location </a>
+        @foreach (var people in Model.PeopleList)
+        {
+        <label>
+            @people.Name @people.LastName
+            <input type="checkbox" name="PeopleIDs" value="@people.ID" />
+            &nbsp; &nbsp;
+        </label>
+        }
     </div>
 
-    
     <br />
+    <a href="/People/Add"> Add new People </a>
     <br />
+
     <div class="form-group">
         <table class="table">
             <tr>
@@ -62,9 +54,6 @@
         </table>
     </div>
 
-    <input type="submit" value="Add Location" />
+    <input type="submit" value="Add People" />
 
 </form>
-
-
-

@@ -11,9 +11,10 @@ using System;
 namespace PhotoAlbum.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180828145810_AddPicPeo")]
+    partial class AddPicPeo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,8 +121,6 @@ namespace PhotoAlbum.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<string>("PeopleReferenceIDs");
-
                     b.Property<int>("StackID");
 
                     b.Property<string>("StackName");
@@ -170,6 +169,19 @@ namespace PhotoAlbum.Migrations
                     b.HasIndex("PictureID");
 
                     b.ToTable("PictureLocations");
+                });
+
+            modelBuilder.Entity("PhotoAlbum.Models.PicturePeople", b =>
+                {
+                    b.Property<int>("PeopleID");
+
+                    b.Property<int>("PictureID");
+
+                    b.HasKey("PeopleID", "PictureID");
+
+                    b.HasIndex("PictureID");
+
+                    b.ToTable("PicturePeopleDb");
                 });
 
             modelBuilder.Entity("PhotoAlbum.Models.Place", b =>
@@ -257,6 +269,19 @@ namespace PhotoAlbum.Migrations
 
                     b.HasOne("PhotoAlbum.Models.Picture", "Picture")
                         .WithMany("PictureLocations")
+                        .HasForeignKey("PictureID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("PhotoAlbum.Models.PicturePeople", b =>
+                {
+                    b.HasOne("PhotoAlbum.Models.People", "People")
+                        .WithMany("PicturePeople")
+                        .HasForeignKey("PeopleID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("PhotoAlbum.Models.Picture", "Picture")
+                        .WithMany("PicturePeople")
                         .HasForeignKey("PictureID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

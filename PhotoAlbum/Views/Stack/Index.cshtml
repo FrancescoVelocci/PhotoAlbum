@@ -6,13 +6,16 @@
 }
 
 <h1>@ViewData["Title"]</h1>
-<h3>Select a Stack of unorganized pictures and add info to it.</h3>
+<h4>Select a Stack of unorganized pictures and add info to it.</h4>
 
 
-<strong><a asp-controller="Stack" asp-action="ViewStack">Open All.</a></strong>
+
 <ul>
     <li>
-        <strong>Stack created on @Model[Model.Count()-1].Name.</strong>
+        <strong><a asp-controller="Stack" asp-action="ViewStack">Open All.</a></strong>
+    </li>
+    <li>
+        <strong>Stack created on @Model[Model.Count() - 1].Name.</strong>
         <strong><a asp-controller="Stack" asp-action="ViewStack" asp-route-id="@Model[Model.Count()-1].ID">open</a></strong>
     </li>
 </ul>

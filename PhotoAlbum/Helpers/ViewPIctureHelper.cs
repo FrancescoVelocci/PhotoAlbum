@@ -31,7 +31,6 @@ namespace PhotoAlbum.Helpers
         public string PictureEventType { get; set; }
 
         //People Model
-        public string PicturePeopleName { get; set; }
-        public string PicturePeopleLastName { get; set; }
+        public string PicturePeopleIDs { get; set; }
     }
 }

@@ -19,6 +19,8 @@ namespace PhotoAlbum.Models
         public string Description { get; set; }
         public DateTime Date { get; set; }
 
+        public string People { get; set; }
+
         public int StackID { get; set; }
         public Stack Stack { get; set; }
 
@@ -27,7 +29,5 @@ namespace PhotoAlbum.Models
         public IList<PictureLocation> PictureLocations { get; set; }
 
         public IList<PictureEvent> PictureEvent { get; set; }
-
-        public IList<PicturePeople> PicturePeople { get; set; }
     }
 }

@@ -9,7 +9,22 @@
 
 <p>You have @Model.ViewPictureHelpers.Count() pictures in this Stack.</p><br />
 
-<a href="/Picture/AddPictureLocation?StackID=@ViewBag.StackID"> Add Locations info to the Picture </a>
+<ul>
+    <li>
+        <a href="/Picture/AddPictureLocation?StackID=@ViewBag.StackID"> Add Location's info to the Picture </a>
+    </li>
+    <li>
+        <a href="/Picture/AddPictureEvent?StackID=@ViewBag.StackID"> Add Event's info to the Picture </a>
+    </li>
+    <li>
+        <a href="/Picture/AddPictureAuthor?StackID=@ViewBag.StackID"> Add Author's info to the Picture </a>
+    </li>
+    <li>
+        <a href="/Picture/AddPicturePeople?StackID=@ViewBag.StackID"> Add People's info to the Picture </a>
+    </li>
+</ul>
+
+<br />
 
 <table>
     <tr>
@@ -60,7 +75,7 @@
             @item.PictureAuthorName
             @item.PictureAuthorLastName
         </td>
-        <td>People</td>
+        <td>@item.PicturePeopleIDs</td>
     </tr>
     }
 </table>
