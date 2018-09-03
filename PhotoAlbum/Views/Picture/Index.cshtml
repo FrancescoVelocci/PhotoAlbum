@@ -18,8 +18,20 @@
     <tr>
         <td>Date</td>
         <td>
-            @Html.ActionLink("Descendent", "Index", new { sortOrder = ViewBag.DateSortParmDesc }) |
-            @Html.ActionLink("Ascendent", "Index", new { sortOrder = ViewBag.DateSortParmAsc })
+            @if (@ViewBag.Sorting == "Asc")
+            {
+                <form method="get" asp-controller="Picture" asp-action="">
+                    <input type="hidden" name="sortOrder" value="Desc" />
+                    <button>Descendent</button>
+                </form>
+            }
+            else
+            {
+                <form method="get" asp-controller="Picture" asp-action="">
+                    <input type="hidden" name="sortOrder" value="Asc" />
+                    <button>Ascendent</button>
+                </form>
+            }
         </td>
     </tr>
 </table>
@@ -85,9 +97,16 @@
                 @item.PictureAuthorLastName
             </td>
             <td>
-                @foreach (var i in @item.PicturePeopleIDs.Split(",").ToList())
+                @if (item.PicturePeopleIDs is null)
                 {
-                    @i;<br />
+                    @item.PicturePeopleIDs;
+                }
+                else
+                {
+                    @foreach(var c in @item.PicturePeopleIDs.Split(",").ToList())
+                    {
+                        @c<br/>
+                    };
                 }
             </td>
         </tr>

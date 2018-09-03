@@ -17,8 +17,22 @@
     <tr>
         <td>Date</td>
         <td>
-            @Html.ActionLink("Descendent", "AddPictureLocation?", new { ID = ViewBag.StackID, sortOrder = ViewBag.DateSortParmDesc }) |
-            @Html.ActionLink("Ascendent", "AddPictureLocation?", new { ID = ViewBag.StackID, sortOrder = ViewBag.DateSortParmAsc })
+            @if (@ViewBag.Sorting == "Asc")
+        {
+            <form method="get" asp-controller="Picture" asp-action="AddPictureLocation">
+                <input type="hidden" name="sortOrder" value="Desc" />
+                <input type="hidden" name="StackID" value="@Model.StackID" />
+                <button>Descendent</button>
+            </form>
+        }
+        else
+        {
+            <form method="get" asp-controller="Picture" asp-action="AddPictureLocation">
+                <input type="hidden" name="sortOrder" value="Asc" />
+                <input type="hidden" name="StackID" value="@Model.StackID" />
+                <button>Ascendent</button>
+            </form>
+        }
         </td>
     </tr>
 </table>

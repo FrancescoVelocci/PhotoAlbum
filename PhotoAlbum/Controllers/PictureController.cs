@@ -51,16 +51,25 @@ namespace PhotoAlbum.Controllers
 
             foreach (var viewPicturePeopleObj in listOfPicturePeopleIdsByPictureId)
             {
-                foreach (var idString in viewPicturePeopleObj.PeopleIDs)
+                if (viewPicturePeopleObj == null)
                 {
-                    var viewPictureHelperObj = new ViewPictureHelper
+                    continue;
+                }
+
+                else
+                {
+                    foreach (var idString in viewPicturePeopleObj.PeopleIDs)
                     {
-                        PictureID = viewPicturePeopleObj.PictureID,
-                        PicturePeopleIDs = idString
+                        var viewPictureHelperObj = new ViewPictureHelper
+                        {
+                            PictureID = viewPicturePeopleObj.PictureID,
+                            PicturePeopleIDs = idString
+                        };
+                        pictureIdandPeopleId.Add(viewPictureHelperObj);
                     };
-                    pictureIdandPeopleId.Add(viewPictureHelperObj);
                 };
             };
+
 
             var pictureIdandPeopleName = (from p in pictureIdandPeopleId
                                           join pn in context.PeopleDb
@@ -70,7 +79,7 @@ namespace PhotoAlbum.Controllers
                                               PictureID = p.PictureID,
                                               PicturePeopleIDs = pn.Name + " " + pn.LastName
                                           }).ToList();
-            
+
             var groupedID = (from g in pictureIdandPeopleName
                              group g by g.PictureID into jj
                              select new ViewPictureHelper
@@ -93,7 +102,7 @@ namespace PhotoAlbum.Controllers
                                                         PictureStackIsClassified = p.Stack.Classified,
                                                         PicturePeopleIDs = pp.PicturePeopleIDs,
                                                     }).ToList();
-                       
+
             var queryLeftJoinPicturesOnLocation = (from p in context.Pictures
                                                    join pl in context.PictureLocations
                                                    on p.ID equals pl.PictureID into jj
@@ -201,37 +210,54 @@ namespace PhotoAlbum.Controllers
                                       PictureAuthorName = pa.PictureAuthorName,
                                       PictureAuthorLastName = pa.PictureAuthorLastName
                                   }).ToList();
-            
+
             return querySelectAll;
+        }
+ 
+        public IQueryable<ViewPictureHelper> Sorting(string sortOrder, IQueryable<ViewPictureHelper> viewPictureHelper)
+        {
+            if (sortOrder == "Desc")
+            {
+                var viewPictureHelperSorted = viewPictureHelper.OrderByDescending(p => p.PictureDate);
+                return (viewPictureHelperSorted);
+            }
+
+            else
+            {
+                var viewPictureHelperSorted = viewPictureHelper.OrderBy(p => p.PictureDate);
+                return (viewPictureHelperSorted);
+            }
         }
 
         [HttpGet]
-        public IActionResult Index(string sortOrder)
+        public IActionResult Index(string sortOrder = "Asc")
         {
-            ViewBag.DateSortParmDesc = sortOrder == "Date" ? "date_desc" : "DateDesc";
-            ViewBag.DateSortParmAsc = sortOrder == "Date" ? "date_asc" : "DateAsc";
+            ViewBag.Sorting = sortOrder;
 
-            var selectAllPictures = SelectAllPictures();
-
-            IQueryable<ViewPictureHelper> viewPictureHelper = selectAllPictures.AsQueryable();
-
-            switch (sortOrder)
-            {
-                case "DateDesc":
-                    viewPictureHelper = viewPictureHelper.OrderByDescending(pic => pic.PictureDate);
-                    break;
-
-                case "DateAsc":
-                    viewPictureHelper = viewPictureHelper.OrderBy(pic => pic.PictureDate);
-                    break;
-            }
+            IQueryable<ViewPictureHelper> selectAllPictures = SelectAllPictures().AsQueryable();
 
             var pictureID = SelectAllPictures().Select(p => p.PictureID).First();
             var isFavorite = true;
 
-            ViewPictureViewModel viewPictureViewModel = new ViewPictureViewModel(viewPictureHelper.ToList(), pictureID, isFavorite);
+            var viewPictureHelperSorted = Sorting(sortOrder, selectAllPictures);
+            ViewPictureViewModel viewPictureViewModel = new ViewPictureViewModel(
+                                                                    viewPictureHelperSorted.ToList(),
+                                                                    pictureID,
+                                                                    isFavorite);
 
             return View(viewPictureViewModel);
+ 
+            
+        }
+
+        public Picture SetFavorite(ViewPictureViewModel viewPictureViewModel)
+        {
+            var pictureID = viewPictureViewModel.PictureID;
+            var picture = new Picture { ID = pictureID };
+
+            picture.Favorite = viewPictureViewModel.IsFavorite;
+
+            return (picture);
         }
 
         [HttpPost]
@@ -239,10 +265,8 @@ namespace PhotoAlbum.Controllers
         {
             if (ModelState.IsValid)
             {
-                var pictureID = viewPictureViewModel.PictureID;
-                var picture = new Picture { ID = pictureID };
+                Picture picture = SetFavorite(viewPictureViewModel);
 
-                picture.Favorite = viewPictureViewModel.IsFavorite;
                 context.Entry(picture).Property("Favorite").IsModified = true;
                 context.SaveChanges();
                 
@@ -253,67 +277,71 @@ namespace PhotoAlbum.Controllers
         }
         
         [HttpGet]
-        public IActionResult Stack(string ID, string sortOrder)
+        public IActionResult Stack([FromQuery]string ID, [FromQuery]string sortOrder = "Asc")
         {
-            ViewBag.DateSortParmDesc = sortOrder == "Date" ? "date_desc" : "DateDesc";
-            ViewBag.DateSortParmAsc = sortOrder == "Date" ? "date_asc" : "DateAsc";
+            ViewBag.Sorting = sortOrder;
             ViewBag.StackID = ID;
-
-            var selectAllPictures = SelectAllPictures();
 
             var pictureID = SelectAllPictures().Select(p => p.PictureID).First();
             var isFavorite = true;
 
-            if (ID == null)
+            if (ID != null)
             {
-                var selectAllPictureOfAStack = selectAllPictures.AsQueryable();
+                var selectAllPictureOfAStack = SelectAllPictures().AsQueryable();
 
-                switch (sortOrder)
-                {
-                    case "DateDesc":
-                        selectAllPictureOfAStack = selectAllPictureOfAStack
-                            .OrderByDescending(pic => pic.PictureDate);
-                        break;
+                var viewPictureHelperSorted = Sorting(sortOrder, selectAllPictureOfAStack)
+                                                    .Where(p => p.PictureStackID == int.Parse(ID))
+                                                    .Where(p => p.PictureStackIsClassified == false);
 
-                    case "DateAsc":
-                        selectAllPictureOfAStack = selectAllPictureOfAStack
-                            .OrderBy(pic => pic.PictureDate);
-                        break;
-                }
+                ViewPictureStackViewModel viewPictureStackViewModel = new ViewPictureStackViewModel(
+                                                                        viewPictureHelperSorted.ToList(),
+                                                                        pictureID,
+                                                                        isFavorite,
+                                                                        ID);
 
-                ViewPictureViewModel viewPictureViewModel = new ViewPictureViewModel(selectAllPictureOfAStack.ToList(),
-                                                                                    pictureID,
-                                                                                    isFavorite);
-
-                return View(viewPictureViewModel);
+                return View(viewPictureStackViewModel);
             }
 
             else
             {
-                var selectAllPictureOfAStack = selectAllPictures
-                    .Where(p => p.PictureStackID == int.Parse(ID))
-                    .AsQueryable();
+                var selectAllPicturesStillInStack = SelectAllPictures().AsQueryable();
 
-                switch (sortOrder)
-                {
-                    case "DateDesc":
-                        selectAllPictureOfAStack = selectAllPictureOfAStack.OrderByDescending(pic => pic.PictureDate);
-                        break;
+                var viewPictureHelperSorted = Sorting(sortOrder, selectAllPicturesStillInStack)
+                                                    
+                                                .Where(p => p.PictureStackIsClassified == false);
 
-                    case "DateAsc":
-                        selectAllPictureOfAStack = selectAllPictureOfAStack.OrderBy(pic => pic.PictureDate);
-                        break;
-                }
+                ViewPictureStackViewModel viewPictureStackViewModel = new ViewPictureStackViewModel(
+                                                                        viewPictureHelperSorted.ToList(),
+                                                                        pictureID,
+                                                                        isFavorite,
+                                                                        ID);
 
-                ViewPictureViewModel viewPictureViewModel = new ViewPictureViewModel(selectAllPictureOfAStack.ToList(),
-                                                                                    pictureID,
-                                                                                    isFavorite);
-
-                return View(viewPictureViewModel);
+                return View(viewPictureStackViewModel);
             }
         }
 
+        [HttpPost]
+        public IActionResult Stack(ViewPictureViewModel viewPictureViewModel, string ID)
+        {
+            if (ModelState.IsValid)
+            {
+                Picture picture = SetFavorite(viewPictureViewModel);
+                context.Entry(picture).Property("Favorite").IsModified = true;
+                context.SaveChanges();
 
+                if (ID == null)
+                {
+                    return Redirect("/Picture/Stack?ID=");
+                }
+
+                else
+                {
+                    return Redirect(string.Format("/Picture/Stack?ID={0}", ID));
+                }
+            }
+
+            return View(viewPictureViewModel);
+        }
 
         public List<ViewPictureHelper> SelectAllPicturesWhithoutLocation()
         {
@@ -345,36 +373,19 @@ namespace PhotoAlbum.Controllers
         [HttpGet]
         public IActionResult AddPictureLocation(string stackID, string sortOrder)
         {
-            ViewBag.DateSortParmDesc = sortOrder == "Date" ? "date_desc" : "DateDesc";
-            ViewBag.DateSortParmAsc = sortOrder == "Date" ? "date_asc" : "DateAsc";
-            ViewBag.StackID = stackID;
+            ViewBag.Sorting = sortOrder;
 
             var selectAllPicturesWithoutLocation = SelectAllPicturesWhithoutLocation();
 
             var slectAllPictureWithoutLocationNotYetClassified = selectAllPicturesWithoutLocation
                                                                 .Where(p => p.PictureStackIsClassified == false)
-                                                                .ToList();
+                                                                .AsQueryable();
 
             if (stackID != null)
             {
-                var selectAllPictureOfAStackWithoutLocation = slectAllPictureWithoutLocationNotYetClassified
+                var selectAllPictureOfAStackWithoutLocation = Sorting(sortOrder, slectAllPictureWithoutLocationNotYetClassified)
                                                             .Where(p => p.PictureStackID == int.Parse(stackID))
                                                             .AsQueryable();
-
-                switch (sortOrder)
-                {
-                    case "DateDesc":
-                        selectAllPictureOfAStackWithoutLocation = selectAllPictureOfAStackWithoutLocation
-                            .OrderByDescending(pic => pic.PictureDate);
-                        break;
-
-                    case "DateAsc":
-                        selectAllPictureOfAStackWithoutLocation = selectAllPictureOfAStackWithoutLocation
-                            .OrderBy(pic => pic.PictureDate);
-                        break;
-                }
-
-                string _stackID = stackID;
 
                 var locations = context.Locations.Include(p => p.Place).ToList();
 
@@ -386,7 +397,7 @@ namespace PhotoAlbum.Controllers
                                                                         selectAllPictureOfAStackWithoutLocation.ToList(),
                                                                         locations,
                                                                         pictureIDs,
-                                                                        _stackID
+                                                                        stackID
                                                                         );
 
                 return View(addPictureLocationViewModel);
@@ -394,23 +405,8 @@ namespace PhotoAlbum.Controllers
 
             else
             {
-                var selectAllPictureOfAStackWithoutLocation = slectAllPictureWithoutLocationNotYetClassified
+                var selectAllPictureOfAStackWithoutLocation = Sorting(sortOrder, slectAllPictureWithoutLocationNotYetClassified)
                                                             .AsQueryable();
-
-                switch (sortOrder)
-                {
-                    case "DateDesc":
-                        selectAllPictureOfAStackWithoutLocation = selectAllPictureOfAStackWithoutLocation
-                            .OrderByDescending(pic => pic.PictureDate);
-                        break;
-
-                    case "DateAsc":
-                        selectAllPictureOfAStackWithoutLocation = selectAllPictureOfAStackWithoutLocation
-                            .OrderBy(pic => pic.PictureDate);
-                        break;
-                }
-
-                string _stackID = stackID;
 
                 var locations = context.Locations.Include(p => p.Place).ToList();
 
@@ -422,7 +418,7 @@ namespace PhotoAlbum.Controllers
                                                                         selectAllPictureOfAStackWithoutLocation.ToList(),
                                                                         locations,
                                                                         pictureIDs,
-                                                                        _stackID
+                                                                        stackID
                                                                         );
 
                 return View(addPictureLocationViewModel);
@@ -772,7 +768,7 @@ namespace PhotoAlbum.Controllers
                 return View(addPicturePeopleViewModel);
                 }
         }
-    
+
         [HttpPost]
         public IActionResult AddPicturePeople(AddPicturePeopleViewModel addPicturePeopleViewModel)
         {
@@ -782,20 +778,20 @@ namespace PhotoAlbum.Controllers
 
                 List<int> pictureIDs = addPicturePeopleViewModel.PictureIDs;
 
-                List<string> peopleIDList = new List<string>(); 
+                List<string> peopleIDList = new List<string>();
                 foreach (var c in addPicturePeopleViewModel.PeopleIDs)
-                    {
-                        var id = c.ToString();
-                        peopleIDList.Add(id);
-                    };
+                {
+                    var id = c.ToString();
+                    peopleIDList.Add(id);
+                };
 
                 string peopleIDs = string.Join(", ", peopleIDList);
 
                 foreach (var pictureID in pictureIDs)
                 {
-                        var picture = new Picture { ID = pictureID };
-                        picture.People = peopleIDs;
-                        context.Entry(picture).Property("People").IsModified = true;
+                    var picture = new Picture { ID = pictureID };
+                    picture.People = peopleIDs;
+                    context.Entry(picture).Property("People").IsModified = true;
                 };
 
                 context.SaveChanges();
@@ -804,6 +800,12 @@ namespace PhotoAlbum.Controllers
             }
 
             return View(addPicturePeopleViewModel);
+        }
+
+        [HttpGet]
+        public IActionResult Search()
+        {
+            return View();
         }
 
     }

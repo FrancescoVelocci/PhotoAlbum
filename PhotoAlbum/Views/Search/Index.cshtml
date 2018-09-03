@@ -1,58 +1,44 @@
-﻿@model PhotoAlbum.ViewModels.ViewPictureStackViewModel
-
+﻿@model PhotoAlbum.ViewModels.SearchViewModel
 
 @{
-    ViewData["Title"] = "Photo Stack";
+    ViewData["Title"] = "Search Pictures";
 }
 
 <h1>@ViewData["Title"]</h1>
 
-<p>You have @Model.ViewPictureHelpers.Count() pictures in this Stack.</p><br />
+<form method="get" asp-controller="Search" asp-action="">
+    <div class="form-group">
+        <label asp-for="LocationID">Location</label>
+        <select asp-for="LocationID" asp-items="Model.Locations"></select>
+        <button type="submit" name="search" value="Location">Search</button>
+    </div>
+</form>
 
-<ul>
-    <li>
-        <a href="/Picture/AddPictureLocation?StackID=@ViewBag.StackID"> Add Location's info to the Picture </a>
-    </li>
-    <li>
-        <a href="/Picture/AddPictureEvent?StackID=@ViewBag.StackID"> Add Event's info to the Picture </a>
-    </li>
-    <li>
-        <a href="/Picture/AddPictureAuthor?StackID=@ViewBag.StackID"> Add Author's info to the Picture </a>
-    </li>
-    <li>
-        <a href="/Picture/AddPicturePeople?StackID=@ViewBag.StackID"> Add People's info to the Picture </a>
-    </li>
-</ul>
+<form method="get" asp-controller="Search" asp-action="">
+    <div class="form-group">
+        <label asp-for="EventID">Event</label>
+        <select asp-for="EventID" asp-items="Model.Events"></select>
+        <button type="submit" name="search" value="Event">Search</button>
+    </div>
+</form>
 
-<br />
+<form method="get" asp-controller="Search" asp-action="">
+    <div class="form-group">
+        <label asp-for="AuthorID">Author</label>
+        <select asp-for="AuthorID" asp-items="Model.Authors"></select>
+        <button type="submit" name="search" value="Author">Search</button>
+    </div>
+</form>
 
-<table>
-    <tr>
-        <th>SORT BY</th>
-        <th></th>
-    </tr>
-    <tr>
-        <td>Date</td>
-        <td>
-            @if (@ViewBag.Sorting == "Asc")
-            {
-                <form method="get" asp-controller="Picture" asp-action="Stack">
-                    <input type="hidden" name="sortOrder" value="Desc" />
-                    <input type="hidden" name="ID" value="@Model.ID" />
-                <button>Descendent</button>
-                </form>
-            }
-            else
-            {
-                <form method="get" asp-controller="Picture" asp-action="Stack">
-                    <input type="hidden" name="sortOrder" value="Asc" />
-                    <input type="hidden" name="ID" value="@Model.ID" />
-                    <button>Ascendent</button>
-                </form>
-            }
-        </td>
-    </tr>
-</table>
+<form method="get" asp-controller="Search" asp-action="">
+    @foreach (var i in Model.PeopleList)
+    {
+        <label>@i.Name @i.LastName
+            <input type="checkbox" name="People" value="@i.Name @i.LastName" />
+        </label>
+    }
+        <button type="submit" name="search" value="People">Search</button>
+</form>
 
 <table class="table">
     <tr>
@@ -77,7 +63,7 @@
             <td>
                 @if (item.PictureFavorite == false)
                 {
-                    <form method="post" asp-route="Picture/Stack?ID=ViewBag.ID" >
+                    <form method="post" asp-controller="Picture" asp-action="">
                         <div class="form-group">
                             <input type="hidden" name="IsFavorite" value="true" />
                             <input type="hidden" name="PictureID" value="@item.PictureID" />
@@ -88,14 +74,14 @@
 
                 @if (item.PictureFavorite == true)
                 {
-                    <form method="post" asp-route="Picture/Stack?ID=ViewBag.ID">
+                    <form method="post" asp-controller="Picture" asp-action="">
                         <div class="form-group">
                             <input type="hidden" name="IsFavorite" value="false" />
                             <input type="hidden" name="PictureID" value="@item.PictureID" />
                             <button class="heartRed"> </button>
                         </div>
                     </form>
-                }           
+                }
             </td>
 
             <td>
@@ -130,3 +116,4 @@
         </tr>
     }
 </table>
+

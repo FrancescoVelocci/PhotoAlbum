@@ -29,5 +29,7 @@ namespace PhotoAlbum.Models
         public IList<PictureLocation> PictureLocations { get; set; }
 
         public IList<PictureEvent> PictureEvent { get; set; }
+
+        public IList<PictureAlbum> PictureAlmbums { get; set; }
     }
 }

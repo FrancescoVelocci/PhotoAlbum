@@ -16,6 +16,7 @@ namespace PhotoAlbum.Helpers
         public bool PictureStackIsClassified { get; set; }
 
         //Author Model
+        public string PictureAuthorID { get; set; }
         public string PictureAuthorName { get; set; }
         public string PictureAuthorLastName { get; set; }
 
@@ -27,6 +28,7 @@ namespace PhotoAlbum.Helpers
         public string PicturePlaceName { get; set; }
 
         //Event Model
+        public string PictureEventID { get; set; }
         public string PictureEventName { get; set; }
         public string PictureEventType { get; set; }
 
