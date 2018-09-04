@@ -32,7 +32,7 @@ namespace PhotoAlbum.Controllers
         public IActionResult Add()
         {
             AddAuthorViewModel addAuthorViewModel = new AddAuthorViewModel();
-
+            
             return View(addAuthorViewModel);
         }
 

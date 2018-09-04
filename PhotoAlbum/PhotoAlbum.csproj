@@ -48,6 +48,7 @@
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
     <Folder Include="..\..\..\..\Velocci%2527s\lc101\PhotoAlbum\PhotoAlbum\Views\NewFolder\" />
+    <Folder Include="Migrations\" />
     <Folder Include="Views\Search\" />
   </ItemGroup>
 

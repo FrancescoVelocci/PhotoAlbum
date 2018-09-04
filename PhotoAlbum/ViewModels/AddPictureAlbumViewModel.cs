@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using PhotoAlbum.Models;
-using PhotoAlbum.Helpers;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using PhotoAlbum.Helpers;
+using PhotoAlbum.Models;
 
 namespace PhotoAlbum.ViewModels
 {
-    public class SearchViewModel
+    public class AddPictureAlbumViewModel
     {
+        public int AlbumID { get; set; }
+        public List<int> PictureIDs { get; set; }
+
         public List<ViewPictureHelper> ViewPictureHelpers { get; set; }
 
         public int LocationID { get; set; }
@@ -22,15 +25,17 @@ namespace PhotoAlbum.ViewModels
         public List<SelectListItem> Authors { get; set; }
 
         public List<People> PeopleList { get; set; }
-        
-        public SearchViewModel()
+
+        public AddPictureAlbumViewModel()
         { }
 
-        public SearchViewModel(List<ViewPictureHelper> viewPictureHelpers, 
+        public AddPictureAlbumViewModel(List<ViewPictureHelper> viewPictureHelpers,
                                 IEnumerable<Location> locations,
                                 IEnumerable<Event> events,
                                 IEnumerable<Author> authors,
-                                List<People> peopleList)
+                                List<People> peopleList,
+                                List<int> pictureIDs,
+                                int albumID)
         {
             ViewPictureHelpers = viewPictureHelpers;
 
@@ -65,6 +70,10 @@ namespace PhotoAlbum.ViewModels
             }
 
             PeopleList = peopleList;
+
+            PictureIDs = pictureIDs;
+
+            AlbumID = albumID;
         }
     }
 }

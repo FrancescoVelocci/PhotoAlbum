@@ -127,8 +127,6 @@ namespace PhotoAlbum.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AlbumID");
-
                     b.Property<DateTime>("Date");
 
                     b.Property<string>("Description");
@@ -145,8 +143,6 @@ namespace PhotoAlbum.Migrations
                     b.Property<string>("StackName");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("AlbumID");
 
                     b.HasIndex("StackID");
 
@@ -249,10 +245,6 @@ namespace PhotoAlbum.Migrations
 
             modelBuilder.Entity("PhotoAlbum.Models.Picture", b =>
                 {
-                    b.HasOne("PhotoAlbum.Models.Album")
-                        .WithMany("PictureAlbums")
-                        .HasForeignKey("AlbumID");
-
                     b.HasOne("PhotoAlbum.Models.Stack", "Stack")
                         .WithMany("Pictures")
                         .HasForeignKey("StackID")
@@ -262,11 +254,11 @@ namespace PhotoAlbum.Migrations
             modelBuilder.Entity("PhotoAlbum.Models.PictureAlbum", b =>
                 {
                     b.HasOne("PhotoAlbum.Models.Album", "Album")
-                        .WithMany()
+                        .WithMany("PictureAlbums")
                         .HasForeignKey("AlbumID")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("PhotoAlbum.Models.Picture", "Picture")
+                    b.HasOne("PhotoAlbum.Models.Picture", "picture")
                         .WithMany("PictureAlmbums")
                         .HasForeignKey("PictureID")
                         .OnDelete(DeleteBehavior.Cascade);

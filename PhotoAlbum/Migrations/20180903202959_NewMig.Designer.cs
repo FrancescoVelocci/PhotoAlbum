@@ -11,8 +11,8 @@ using System;
 namespace PhotoAlbum.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180816211859_MigrationOne")]
-    partial class MigrationOne
+    [Migration("20180903202959_NewMig")]
+    partial class NewMig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,22 @@ namespace PhotoAlbum.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("PhotoAlbum.Models.Album", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("DateTime");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Albums");
+                });
 
             modelBuilder.Entity("PhotoAlbum.Models.Author", b =>
                 {
@@ -112,8 +128,6 @@ namespace PhotoAlbum.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("AuthorID");
-
                     b.Property<DateTime>("Date");
 
                     b.Property<string>("Description");
@@ -123,17 +137,43 @@ namespace PhotoAlbum.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
+                    b.Property<string>("People");
+
                     b.Property<int>("StackID");
 
                     b.Property<string>("StackName");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("AuthorID");
-
                     b.HasIndex("StackID");
 
                     b.ToTable("Pictures");
+                });
+
+            modelBuilder.Entity("PhotoAlbum.Models.PictureAlbum", b =>
+                {
+                    b.Property<int>("AlbumID");
+
+                    b.Property<int>("PictureID");
+
+                    b.HasKey("AlbumID", "PictureID");
+
+                    b.HasIndex("PictureID");
+
+                    b.ToTable("PictureAlbums");
+                });
+
+            modelBuilder.Entity("PhotoAlbum.Models.PictureAuthor", b =>
+                {
+                    b.Property<int>("AuthorID");
+
+                    b.Property<int>("PictureID");
+
+                    b.HasKey("AuthorID", "PictureID");
+
+                    b.HasIndex("PictureID");
+
+                    b.ToTable("PictureAuthors");
                 });
 
             modelBuilder.Entity("PhotoAlbum.Models.PictureEvent", b =>
@@ -206,14 +246,35 @@ namespace PhotoAlbum.Migrations
 
             modelBuilder.Entity("PhotoAlbum.Models.Picture", b =>
                 {
-                    b.HasOne("PhotoAlbum.Models.Author", "Author")
-                        .WithMany("Pictures")
-                        .HasForeignKey("AuthorID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("PhotoAlbum.Models.Stack", "Stack")
                         .WithMany("Pictures")
                         .HasForeignKey("StackID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("PhotoAlbum.Models.PictureAlbum", b =>
+                {
+                    b.HasOne("PhotoAlbum.Models.Album", "Album")
+                        .WithMany("PictureAlbums")
+                        .HasForeignKey("AlbumID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("PhotoAlbum.Models.Picture", "picture")
+                        .WithMany("PictureAlmbums")
+                        .HasForeignKey("PictureID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("PhotoAlbum.Models.PictureAuthor", b =>
+                {
+                    b.HasOne("PhotoAlbum.Models.Author", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("PhotoAlbum.Models.Picture", "Picture")
+                        .WithMany("PictureAuthors")
+                        .HasForeignKey("PictureID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

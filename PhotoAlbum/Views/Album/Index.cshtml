@@ -1,0 +1,30 @@
+﻿@model List<PhotoAlbum.Models.Album>
+
+@{
+    ViewData["Title"] = "Albums";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>DateTime</th>
+        <th> </th>
+        <th> </th>
+    </tr>
+    @foreach (Album album in Model)
+    {
+    <tr>
+        <td>@album.Name</td>
+        <td>@album.Description</td>
+        <td>@album.DateTime.ToShortDateString()</td>
+        <td><a asp-controller="Album" asp-action="View" asp-route-id="@album.ID">OPEN</a></td>
+        <td><a asp-controller="Album" asp-action="AddPictureAlbum" asp-route-id="@album.ID">ADD PICTURE</a></td>
+    </tr>
+    }
+</table>  
+
+<a asp-controller="Album" asp-action="AddAlbum">Create a new Album</a>     
