@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace PhotoAlbum.Models
 {
-    public class PictureAlbum
+    public class PictureXAlbum
     {
-        public int PictureID { get; set; }
-        public Picture picture { get; set; }
-
         public int AlbumID { get; set; }
         public Album Album { get; set; }
+
+        public int PictureID { get; set; }
+        public Picture Picture { get; set; }
     }
 }

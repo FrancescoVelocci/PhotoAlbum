@@ -255,18 +255,62 @@ namespace PhotoAlbum.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddPictureAlbum(string locationID = "",
+        public IActionResult View(int ID)
+        {
+            int _albumID = ID;
+
+            ViewBag.AlbumName = context.Albums.Where(a => a.ID == _albumID).Select(a => a.Name).ToList();
+
+            var query = (from a in SelectAllPictures()
+                         join b in context.PictureXAlbums
+                         on a.PictureID equals b.PictureID
+                         select new ViewPictureHelper
+                         {
+                             PictureID = a.PictureID,
+                             PictureName = a.PictureName,
+                             PictureDate = a.PictureDate,
+                             PictureFavorite = a.PictureFavorite,
+                             PictureStackID = a.PictureStackID,
+                             PictureStackIsClassified = a.PictureStackIsClassified,
+                             PicturePeopleIDs = a.PicturePeopleIDs,
+
+                             PictureLocationID = a.PictureLocationID,
+                             PictureNation = a.PictureNation,
+                             PictureCity = a.PictureCity,
+                             PicturePlaceType = a.PicturePlaceType,
+                             PicturePlaceName = a.PicturePlaceName,
+
+                             PictureEventID = a.PictureEventID,
+                             PictureEventName = a.PictureEventName,
+                             PictureEventType = a.PictureEventType,
+
+                             PictureAuthorID = a.PictureAuthorID,
+                             PictureAuthorName = a.PictureAuthorName,
+                             PictureAuthorLastName = a.PictureAuthorLastName
+                         }).ToList();
+
+            ViewPictureAlbumViewModel viewPictureAlbumViewModel = new ViewPictureAlbumViewModel(query, _albumID);
+
+
+            return View(viewPictureAlbumViewModel);
+        }
+
+        [HttpGet]
+        public IActionResult AddPictureAlbum(int ID,
+                                    string locationID = "",
                                     string eventID = "",
                                     string authorID = "",
                                     string people = "",
-                                    string search = "")
+                                    string search = ""
+                                    )
         {
             var locations = context.Locations.Include(p => p.Place).ToList();
             var events = context.Events.Include(p => p.EventType).ToList();
             var authors = context.Authors.ToList();
             var peopleList = context.PeopleDb.ToList();
             List<int> pictureIDs = new List<int>();
-            int albumID = 0;
+
+            int albumID = ID;
 
             if (search == "Location")
             {
@@ -370,13 +414,13 @@ namespace PhotoAlbum.Controllers
 
                 foreach (var pictureID in pictureIDs)
                 {
-                    PictureAlbum pictureAlbum = new PictureAlbum()
+                    PictureXAlbum pictureAlbum = new PictureXAlbum()
                     {
                         PictureID = pictureID,
                         AlbumID = albumID
                     };
 
-                    context.PictureAlbums.Add(pictureAlbum);
+                    context.PictureXAlbums.Add(pictureAlbum);
                 }
 
                 context.SaveChanges();

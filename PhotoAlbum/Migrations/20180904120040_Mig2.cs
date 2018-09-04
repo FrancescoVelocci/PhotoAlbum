@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace PhotoAlbum.Migrations
 {
-    public partial class NewMig : Migration
+    public partial class Mig2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -165,30 +165,6 @@ namespace PhotoAlbum.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PictureAlbums",
-                columns: table => new
-                {
-                    AlbumID = table.Column<int>(nullable: false),
-                    PictureID = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PictureAlbums", x => new { x.AlbumID, x.PictureID });
-                    table.ForeignKey(
-                        name: "FK_PictureAlbums_Albums_AlbumID",
-                        column: x => x.AlbumID,
-                        principalTable: "Albums",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PictureAlbums_Pictures_PictureID",
-                        column: x => x.PictureID,
-                        principalTable: "Pictures",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PictureAuthors",
                 columns: table => new
                 {
@@ -260,6 +236,30 @@ namespace PhotoAlbum.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "PictureXAlbums",
+                columns: table => new
+                {
+                    AlbumID = table.Column<int>(nullable: false),
+                    PictureID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PictureXAlbums", x => new { x.AlbumID, x.PictureID });
+                    table.ForeignKey(
+                        name: "FK_PictureXAlbums_Albums_AlbumID",
+                        column: x => x.AlbumID,
+                        principalTable: "Albums",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PictureXAlbums_Pictures_PictureID",
+                        column: x => x.PictureID,
+                        principalTable: "Pictures",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Events_EventTypeID",
                 table: "Events",
@@ -269,11 +269,6 @@ namespace PhotoAlbum.Migrations
                 name: "IX_Locations_PlaceID",
                 table: "Locations",
                 column: "PlaceID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PictureAlbums_PictureID",
-                table: "PictureAlbums",
-                column: "PictureID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PictureAuthors_PictureID",
@@ -294,15 +289,17 @@ namespace PhotoAlbum.Migrations
                 name: "IX_Pictures_StackID",
                 table: "Pictures",
                 column: "StackID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PictureXAlbums_PictureID",
+                table: "PictureXAlbums",
+                column: "PictureID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "PeopleDb");
-
-            migrationBuilder.DropTable(
-                name: "PictureAlbums");
 
             migrationBuilder.DropTable(
                 name: "PictureAuthors");
@@ -314,7 +311,7 @@ namespace PhotoAlbum.Migrations
                 name: "PictureLocations");
 
             migrationBuilder.DropTable(
-                name: "Albums");
+                name: "PictureXAlbums");
 
             migrationBuilder.DropTable(
                 name: "Authors");
@@ -324,6 +321,9 @@ namespace PhotoAlbum.Migrations
 
             migrationBuilder.DropTable(
                 name: "Locations");
+
+            migrationBuilder.DropTable(
+                name: "Albums");
 
             migrationBuilder.DropTable(
                 name: "Pictures");

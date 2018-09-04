@@ -1,0 +1,118 @@
+﻿@model PhotoAlbum.ViewModels.ViewPictureAlbumViewModel
+
+@{
+    ViewData["Title"] = "Album";
+}
+
+<h1>@ViewData["Title"]</h1>
+@foreach (var i in ViewBag.AlbumName)
+{
+    <h3>@i</h3>
+}
+
+<p>You have @Model.ViewPictureHelpers.Count() pictures.</p><br />
+
+
+<table>
+    <tr>
+        <th>SORT BY</th>
+        <th></th>
+    </tr>
+    <tr>
+        <td>Date</td>
+        <td>
+            @if (@ViewBag.Sorting == "Asc")
+            {
+                <form method="get" asp-controller="Picture" asp-action="">
+                    <input type="hidden" name="sortOrder" value="Desc" />
+                    <button>Descendent</button>
+                </form>
+            }
+            else
+            {
+                <form method="get" asp-controller="Picture" asp-action="">
+                    <input type="hidden" name="sortOrder" value="Asc" />
+                    <button>Ascendent</button>
+                </form>
+            }
+        </td>
+    </tr>
+</table>
+
+<table class="table">
+    <tr>
+        <th></th>
+        <th> </th>
+        <th> </th>
+        <th>Favorite</th>
+        <th>Location</th>
+        <th>Place</th>
+        <th>Event</th>
+        <th>Author</th>
+        <th>People</th>
+    </tr>
+
+    @foreach (var item in Model.ViewPictureHelpers)
+    {
+        <tr>
+            <td>@item.PictureID</td>
+            <td>@item.PictureDate.ToShortDateString()</td>
+            <td><img src="@item.PictureName" alt="Pic not found" height="60" width="60" /></td>
+
+            <td>
+                @if (item.PictureFavorite == false)
+                {
+                    <form method="post" asp-controller="Picture" asp-action="">
+                        <div class="form-group">
+                            <input type="hidden" name="IsFavorite" value="true" />
+                            <input type="hidden" name="PictureID" value="@item.PictureID" />
+                            <button class="heartWhite"> </button>
+                        </div>
+                    </form>
+                }
+
+                @if (item.PictureFavorite == true)
+                {
+                    <form method="post" asp-controller="Picture" asp-action="">
+                        <div class="form-group">
+                            <input type="hidden" name="IsFavorite" value="false" />
+                            <input type="hidden" name="PictureID" value="@item.PictureID" />
+                            <button class="heartRed"> </button>
+                        </div>
+                    </form>
+                }
+            </td>
+
+            <td>
+                @item.PictureNation<br />
+                @item.PictureCity
+            </td>
+            <td>
+                @item.PicturePlaceType<br />
+                @item.PicturePlaceName
+            </td>
+            <td>
+                @item.PictureEventType<br />
+                @item.PictureEventName
+            </td>
+            <td>
+                @item.PictureAuthorName
+                @item.PictureAuthorLastName
+            </td>
+            <td>
+                @if (item.PicturePeopleIDs is null)
+                {
+                    @item.PicturePeopleIDs;
+                }
+                else
+                {
+                    @foreach (var c in @item.PicturePeopleIDs.Split(",").ToList())
+                    {
+                        @c<br />
+                    };
+               }
+            </td>
+        </tr>
+    }
+</table>
+

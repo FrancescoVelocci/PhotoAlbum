@@ -23,7 +23,8 @@ namespace PhotoAlbum.Data
         public DbSet<PictureLocation> PictureLocations { get; set; }
         public DbSet<PictureEvent> PictureEvents { get; set; }
         public DbSet<PictureAuthor> PictureAuthors { get; set; }
-        public DbSet<PictureAlbum> PictureAlbums { get; set; }
+        public DbSet<PictureXAlbum> PictureXAlbums { get; set; }
+
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -35,7 +36,7 @@ namespace PhotoAlbum.Data
             modelBuilder.Entity<PictureLocation>().HasKey(p => new { p.LocationID, p.PictureID });
             modelBuilder.Entity<PictureEvent>().HasKey(p => new { p.EventID, p.PictureID });
             modelBuilder.Entity<PictureAuthor>().HasKey(p => new { p.AuthorID, p.PictureID });
-            modelBuilder.Entity<PictureAlbum>().HasKey(p => new { p.AlbumID, p.PictureID });
+            modelBuilder.Entity<PictureXAlbum>().HasKey(p => new { p.AlbumID, p.PictureID });
         }
     }
 }

@@ -149,19 +149,6 @@ namespace PhotoAlbum.Migrations
                     b.ToTable("Pictures");
                 });
 
-            modelBuilder.Entity("PhotoAlbum.Models.PictureAlbum", b =>
-                {
-                    b.Property<int>("AlbumID");
-
-                    b.Property<int>("PictureID");
-
-                    b.HasKey("AlbumID", "PictureID");
-
-                    b.HasIndex("PictureID");
-
-                    b.ToTable("PictureAlbums");
-                });
-
             modelBuilder.Entity("PhotoAlbum.Models.PictureAuthor", b =>
                 {
                     b.Property<int>("AuthorID");
@@ -199,6 +186,19 @@ namespace PhotoAlbum.Migrations
                     b.HasIndex("PictureID");
 
                     b.ToTable("PictureLocations");
+                });
+
+            modelBuilder.Entity("PhotoAlbum.Models.PictureXAlbum", b =>
+                {
+                    b.Property<int>("AlbumID");
+
+                    b.Property<int>("PictureID");
+
+                    b.HasKey("AlbumID", "PictureID");
+
+                    b.HasIndex("PictureID");
+
+                    b.ToTable("PictureXAlbums");
                 });
 
             modelBuilder.Entity("PhotoAlbum.Models.Place", b =>
@@ -251,19 +251,6 @@ namespace PhotoAlbum.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("PhotoAlbum.Models.PictureAlbum", b =>
-                {
-                    b.HasOne("PhotoAlbum.Models.Album", "Album")
-                        .WithMany("PictureAlbums")
-                        .HasForeignKey("AlbumID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("PhotoAlbum.Models.Picture", "picture")
-                        .WithMany("PictureAlmbums")
-                        .HasForeignKey("PictureID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("PhotoAlbum.Models.PictureAuthor", b =>
                 {
                     b.HasOne("PhotoAlbum.Models.Author", "Author")
@@ -299,6 +286,19 @@ namespace PhotoAlbum.Migrations
 
                     b.HasOne("PhotoAlbum.Models.Picture", "Picture")
                         .WithMany("PictureLocations")
+                        .HasForeignKey("PictureID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("PhotoAlbum.Models.PictureXAlbum", b =>
+                {
+                    b.HasOne("PhotoAlbum.Models.Album", "Album")
+                        .WithMany("PictureXAlbums")
+                        .HasForeignKey("AlbumID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("PhotoAlbum.Models.Picture", "Picture")
+                        .WithMany("PictureXAlbums")
                         .HasForeignKey("PictureID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

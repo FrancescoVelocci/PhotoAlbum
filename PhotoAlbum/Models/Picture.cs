@@ -30,6 +30,6 @@ namespace PhotoAlbum.Models
 
         public IList<PictureEvent> PictureEvent { get; set; }
 
-        public IList<PictureAlbum> PictureAlmbums { get; set; }
+        public IList<PictureXAlbum> PictureXAlbums { get; set; }
     }
 }

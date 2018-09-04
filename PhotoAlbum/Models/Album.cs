@@ -12,6 +12,6 @@ namespace PhotoAlbum.Models
         public string Description { get; set; }
         public DateTime DateTime { get; set; }
 
-        public IList<PictureAlbum> PictureAlbums { get; set; }
+        public IList<PictureXAlbum> PictureXAlbums { get; set; }
     }
 }

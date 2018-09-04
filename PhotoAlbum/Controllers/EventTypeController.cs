@@ -40,15 +40,25 @@ namespace PhotoAlbum.Controllers
         {
             if (ModelState.IsValid)
             {
-                EventType eventType = new EventType()
+                var eventTipes = context.EventTypes.Select(p => p.Name).ToList();
+
+                if (eventTipes.Contains(addEventTypeViewModel.Name))
                 {
-                    Name = addEventTypeViewModel.Name
-                };
+                    ViewBag.Validation = "Type already exist";
+                    return View(addEventTypeViewModel);
+                }
+                else
+                {
+                    EventType eventType = new EventType()
+                    {
+                        Name = addEventTypeViewModel.Name
+                    };
 
-                context.EventTypes.Add(eventType);
-                context.SaveChanges();
+                    context.EventTypes.Add(eventType);
+                    context.SaveChanges();
 
-                return Redirect("/EventType");
+                    return Redirect("/EventType");
+                }
             }
 
             return View(addEventTypeViewModel);
