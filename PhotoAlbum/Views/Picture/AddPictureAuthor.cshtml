@@ -9,6 +9,34 @@
 
 <p>You have @Model.PictureIDs.Count() pictures left.</p><br />
 
+<table>
+    <tr>
+        <th>SORT BY</th>
+        <th></th>
+    </tr>
+    <tr>
+        <td>Date</td>
+        <td>
+            @if (@ViewBag.Sorting == "Asc")
+            {
+                <form method="get" asp-controller="Picture" asp-action="AddPictureAuthor">
+                    <input type="hidden" name="sortOrder" value="Desc" />
+                    <input type="hidden" name="StackID" value="@Model.StackID" />
+                    <button>Descendent</button>
+                </form>
+            }
+            else
+            {
+                <form method="get" asp-controller="Picture" asp-action="AddPictureAuthor">
+                    <input type="hidden" name="sortOrder" value="Asc" />
+                    <input type="hidden" name="StackID" value="@Model.StackID" />
+                    <button>Ascendent</button>
+                </form>
+            }
+        </td>
+    </tr>
+</table>
+<br />
 
 <form method="post" asp-controller="Picture" asp-action="AddPictureAuthor">
 

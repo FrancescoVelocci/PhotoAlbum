@@ -238,17 +238,19 @@ namespace PhotoAlbum.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddPictureEvent(string stackID)
+        public IActionResult AddPictureEvent(string stackID, string sortOrder)
         {
+            ViewBag.Sorting = sortOrder;
+
             var selectAllPicturesWithoutEvent = provider.SelectAllPicturesWhithoutEvent();
 
             var slectAllPictureWithoutEventNotYetClassified = selectAllPicturesWithoutEvent
                                                                 .Where(p => p.PictureStackIsClassified == false)
-                                                                .ToList();
+                                                                .AsQueryable();
 
             if (stackID != null)
             {
-                var selectAllPictureOfAStackWithoutEvent = slectAllPictureWithoutEventNotYetClassified
+                var selectAllPictureOfAStackWithoutEvent = Sorting(sortOrder, slectAllPictureWithoutEventNotYetClassified)
                                                             .Where(p => p.PictureStackID == int.Parse(stackID))
                                                             .AsQueryable();
 
@@ -272,7 +274,7 @@ namespace PhotoAlbum.Controllers
 
             else
             {
-                var selectAllPictureOfAStackWithoutEvent = slectAllPictureWithoutEventNotYetClassified
+                var selectAllPictureOfAStackWithoutEvent = Sorting(sortOrder, slectAllPictureWithoutEventNotYetClassified)
                                                             .AsQueryable();
 
                 string _stackID = stackID;
@@ -325,17 +327,19 @@ namespace PhotoAlbum.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddPictureAuthor(string stackID)
+        public IActionResult AddPictureAuthor(string stackID, string sortOrder)
         {
+            ViewBag.Sorting = sortOrder;
+
             var selectAllPicturesWithoutAuthor = provider.SelectAllPicturesWhithoutAuthor();
 
             var slectAllPictureWithoutAuthorNotYetClassified = selectAllPicturesWithoutAuthor
                                                                 .Where(p => p.PictureStackIsClassified == false)
-                                                                .ToList();
+                                                                .AsQueryable();
 
             if (stackID != null)
             {
-                var selectAllPictureOfAStackWithoutAuthor = slectAllPictureWithoutAuthorNotYetClassified
+                var selectAllPictureOfAStackWithoutAuthor = Sorting(sortOrder, slectAllPictureWithoutAuthorNotYetClassified)
                                                             .Where(p => p.PictureStackID == int.Parse(stackID))
                                                             .AsQueryable();
 
@@ -359,7 +363,7 @@ namespace PhotoAlbum.Controllers
 
             else
             {
-                var selectAllPictureOfAStackWithoutAuthor = slectAllPictureWithoutAuthorNotYetClassified
+                var selectAllPictureOfAStackWithoutAuthor = Sorting(sortOrder, slectAllPictureWithoutAuthorNotYetClassified)
                                                             .AsQueryable();
 
                 string _stackID = stackID;
@@ -412,17 +416,19 @@ namespace PhotoAlbum.Controllers
         }
     
         [HttpGet]
-        public IActionResult AddPicturePeople(string stackID)
+        public IActionResult AddPicturePeople(string stackID, string sortOrder)
         {
+            ViewBag.Sorting = sortOrder;
+
             var selectAllPicturesWithoutPeople = provider.SelectAllPicturesWhithoutPeople();
 
             var slectAllPictureWithoutPeopleNotYetClassified = selectAllPicturesWithoutPeople
                                                                 .Where(p => p.PictureStackIsClassified == false)
-                                                                .ToList();
+                                                                .AsQueryable();
 
             if (stackID != null)
             {
-                var selectAllPictureOfAStackWithoutPeople = slectAllPictureWithoutPeopleNotYetClassified
+                var selectAllPictureOfAStackWithoutPeople = Sorting(sortOrder, slectAllPictureWithoutPeopleNotYetClassified)
                                                             .Where(p => p.PictureStackID == int.Parse(stackID))
                                                             .AsQueryable();
 
@@ -452,7 +458,7 @@ namespace PhotoAlbum.Controllers
 
             else
             {
-                var selectAllPictureOfAStackWithoutAuthor = slectAllPictureWithoutPeopleNotYetClassified
+                var selectAllPictureOfAStackWithoutAuthor = Sorting(sortOrder, slectAllPictureWithoutPeopleNotYetClassified)
                                                             .AsQueryable();
 
                 string _stackID = stackID;

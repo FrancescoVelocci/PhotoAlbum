@@ -8,11 +8,12 @@ using PhotoAlbum.Data;
 using PhotoAlbum.Models;
 using PhotoAlbum.ViewModels;
 
+// LOCATION Controller
+
 namespace PhotoAlbum.Controllers
 {
     public class LocationController : Controller
     {
-        // GET: /<controller>/
         private ApplicationDbContext context;
 
         public LocationController(ApplicationDbContext dbContext)
