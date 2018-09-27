@@ -16,6 +16,7 @@ namespace PhotoAlbum.Controllers
     public class PictureController : Controller
     {
         private ApplicationDbContext context;
+
         private DataProvider provider;
 
         public PictureController(ApplicationDbContext dbContext)

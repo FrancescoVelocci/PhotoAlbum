@@ -34,5 +34,5 @@ namespace PhotoAlbum.Helpers
 
         //People Model
         public string PicturePeopleIDs { get; set; }
-    }
+    }   
 }
