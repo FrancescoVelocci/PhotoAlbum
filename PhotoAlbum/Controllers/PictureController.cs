@@ -16,202 +16,12 @@ namespace PhotoAlbum.Controllers
     public class PictureController : Controller
     {
         private ApplicationDbContext context;
+        private DataProvider provider;
 
         public PictureController(ApplicationDbContext dbContext)
         {
+            provider = new DataProvider(dbContext);
             context = dbContext;
-        }
-
-        public List<ViewPictureHelper> SelectAllPictures()
-        {
-            var peopleList = context.Pictures.Select(p => new { p.ID, p.People, }).ToList();
-
-            List<PicturePeopleHelper> listOfPicturePeopleIdsByPictureId = new List<PicturePeopleHelper>();
-
-            foreach (var picturePeopleIDs in peopleList)
-            {
-                if (picturePeopleIDs.People == null)
-                {
-                    continue;
-                }
-
-                else
-                {
-                    List<string> picturePeopleId = picturePeopleIDs.People.Split(',').ToList();
-                    var a = new PicturePeopleHelper
-                    {
-                        PictureID = picturePeopleIDs.ID,
-                        PeopleIDs = picturePeopleId
-                    };
-                    listOfPicturePeopleIdsByPictureId.Add(a);
-                }
-            };
-
-            List<ViewPictureHelper> pictureIdandPeopleId = new List<ViewPictureHelper>();
-
-            foreach (var viewPicturePeopleObj in listOfPicturePeopleIdsByPictureId)
-            {
-                if (viewPicturePeopleObj == null)
-                {
-                    continue;
-                }
-
-                else
-                {
-                    foreach (var idString in viewPicturePeopleObj.PeopleIDs)
-                    {
-                        var viewPictureHelperObj = new ViewPictureHelper
-                        {
-                            PictureID = viewPicturePeopleObj.PictureID,
-                            PicturePeopleIDs = idString
-                        };
-                        pictureIdandPeopleId.Add(viewPictureHelperObj);
-                    };
-                };
-            };
-
-
-            var pictureIdandPeopleName = (from p in pictureIdandPeopleId
-                                          join pn in context.PeopleDb
-                                          on int.Parse(p.PicturePeopleIDs) equals pn.ID
-                                          select new ViewPictureHelper
-                                          {
-                                              PictureID = p.PictureID,
-                                              PicturePeopleIDs = pn.Name + " " + pn.LastName
-                                          }).ToList();
-
-            var groupedID = (from g in pictureIdandPeopleName
-                             group g by g.PictureID into jj
-                             select new ViewPictureHelper
-                             {
-                                 PictureID = jj.First().PictureID,
-                                 PicturePeopleIDs = string.Join(", ", jj.Select(p => p.PicturePeopleIDs))
-                             }).ToList();
-
-            var queryPicturesLeftJoinPeopleNames = (from p in context.Pictures
-                                                    join pp in groupedID
-                                                    on p.ID equals pp.PictureID into jj
-                                                    from pp in jj.DefaultIfEmpty()
-                                                    select new ViewPictureHelper
-                                                    {
-                                                        PictureID = p.ID,
-                                                        PictureName = p.Name,
-                                                        PictureDate = p.Date,
-                                                        PictureFavorite = p.Favorite,
-                                                        PictureStackID = p.StackID,
-                                                        PictureStackIsClassified = p.Stack.Classified,
-                                                        PicturePeopleIDs = pp.PicturePeopleIDs,
-                                                    }).ToList();
-
-            var queryLeftJoinPicturesOnLocation = (from p in context.Pictures
-                                                   join pl in context.PictureLocations
-                                                   on p.ID equals pl.PictureID into jj
-                                                   from pl in jj.DefaultIfEmpty()
-                                                   select new ViewPictureHelper
-                                                   {
-                                                       PictureID = p.ID,
-                                                       PictureName = p.Name,
-                                                       PictureDate = p.Date,
-                                                       PictureFavorite = p.Favorite,
-                                                       PictureStackID = p.StackID,
-                                                       PictureStackIsClassified = p.Stack.Classified,
-
-                                                       PictureNation = pl.Location.Nation,
-                                                       PictureCity = pl.Location.City,
-                                                       PicturePlaceType = pl.Location.Place.Name,
-                                                       PicturePlaceName = pl.Location.PlaceName
-                                                   }).ToList();
-
-            var queryPictureWithNameseJoinPictureLocation = (from pl in queryLeftJoinPicturesOnLocation
-                                                             join pp in queryPicturesLeftJoinPeopleNames
-                                                             on pl.PictureID equals pp.PictureID into jj
-                                                             from pp in jj.DefaultIfEmpty()
-                                                             select new ViewPictureHelper
-                                                             {
-                                                                 PictureID = pp.PictureID,
-                                                                 PictureName = pp.PictureName,
-                                                                 PictureDate = pp.PictureDate,
-                                                                 PictureFavorite = pp.PictureFavorite,
-                                                                 PictureStackID = pp.PictureStackID,
-                                                                 PictureStackIsClassified = pp.PictureStackIsClassified,
-                                                                 PicturePeopleIDs = pp.PicturePeopleIDs,
-
-                                                                 PictureNation = pl.PictureNation,
-                                                                 PictureCity = pl.PictureCity,
-                                                                 PicturePlaceType = pl.PicturePlaceType,
-                                                                 PicturePlaceName = pl.PicturePlaceName,
-                                                             }).ToList();
-
-            var queryLeftJoinPicturesOnEvent = (from p in context.Pictures
-                                                join pe in context.PictureEvents
-                                                on p.ID equals pe.PictureID into jj
-                                                from pe in jj.DefaultIfEmpty()
-                                                select new ViewPictureHelper
-                                                {
-                                                    PictureID = p.ID,
-                                                    PictureEventName = pe.Event.Name,
-                                                    PictureEventType = pe.Event.EventType.Name
-                                                }).ToList();
-
-            var queryPictureLocationJoinEvent = (from pl in queryPictureWithNameseJoinPictureLocation
-                                                 join pe in queryLeftJoinPicturesOnEvent
-                                                 on pl.PictureID equals pe.PictureID
-                                                 select new ViewPictureHelper
-                                                 {
-                                                     PictureID = pl.PictureID,
-                                                     PictureName = pl.PictureName,
-                                                     PictureDate = pl.PictureDate,
-                                                     PictureFavorite = pl.PictureFavorite,
-                                                     PictureStackID = pl.PictureStackID,
-                                                     PictureStackIsClassified = pl.PictureStackIsClassified,
-                                                     PicturePeopleIDs = pl.PicturePeopleIDs,
-
-                                                     PictureNation = pl.PictureNation,
-                                                     PictureCity = pl.PictureCity,
-                                                     PicturePlaceType = pl.PicturePlaceType,
-                                                     PicturePlaceName = pl.PicturePlaceName,
-
-                                                     PictureEventName = pe.PictureEventName,
-                                                     PictureEventType = pe.PictureEventType
-                                                 }).ToList();
-
-            var queryLeftJoinPicturesOnAuthor = (from p in context.Pictures
-                                                 join pa in context.PictureAuthors
-                                                 on p.ID equals pa.PictureID into JJ
-                                                 from pa in JJ.DefaultIfEmpty()
-                                                 select new ViewPictureHelper
-                                                 {
-                                                     PictureID = p.ID,
-                                                     PictureAuthorName = pa.Author.Name,
-                                                     PictureAuthorLastName = pa.Author.LastName
-                                                 }).ToList();
-
-            var querySelectAll = (from ple in queryPictureLocationJoinEvent
-                                  join pa in queryLeftJoinPicturesOnAuthor
-                                  on ple.PictureID equals pa.PictureID
-                                  select new ViewPictureHelper
-                                  {
-                                      PictureID = ple.PictureID,
-                                      PictureName = ple.PictureName,
-                                      PictureDate = ple.PictureDate,
-                                      PictureFavorite = ple.PictureFavorite,
-                                      PictureStackID = ple.PictureStackID,
-                                      PictureStackIsClassified = ple.PictureStackIsClassified,
-                                      PicturePeopleIDs = ple.PicturePeopleIDs,
-
-                                      PictureNation = ple.PictureNation,
-                                      PictureCity = ple.PictureCity,
-                                      PicturePlaceType = ple.PicturePlaceType,
-                                      PicturePlaceName = ple.PicturePlaceName,
-
-                                      PictureEventName = ple.PictureEventName,
-                                      PictureEventType = ple.PictureEventType,
-
-                                      PictureAuthorName = pa.PictureAuthorName,
-                                      PictureAuthorLastName = pa.PictureAuthorLastName
-                                  }).ToList();
-
-            return querySelectAll;
         }
  
         public IQueryable<ViewPictureHelper> Sorting(string sortOrder, IQueryable<ViewPictureHelper> viewPictureHelper)
@@ -234,9 +44,9 @@ namespace PhotoAlbum.Controllers
         {
             ViewBag.Sorting = sortOrder;
 
-            IQueryable<ViewPictureHelper> selectAllPictures = SelectAllPictures().AsQueryable();
+            IQueryable<ViewPictureHelper> selectAllPictures = provider.SelectAllPictures().AsQueryable();
 
-            var pictureID = SelectAllPictures().Select(p => p.PictureID).First();
+            var pictureID = provider.SelectAllPictures().Select(p => p.PictureID).First();
             var isFavorite = true;
 
             var viewPictureHelperSorted = Sorting(sortOrder, selectAllPictures);
@@ -245,9 +55,7 @@ namespace PhotoAlbum.Controllers
                                                                     pictureID,
                                                                     isFavorite);
 
-            return View(viewPictureViewModel);
- 
-            
+            return View(viewPictureViewModel);  
         }
 
         public Picture SetFavorite(ViewPictureViewModel viewPictureViewModel)
@@ -282,12 +90,12 @@ namespace PhotoAlbum.Controllers
             ViewBag.Sorting = sortOrder;
             ViewBag.StackID = ID;
 
-            var pictureID = SelectAllPictures().Select(p => p.PictureID).First();
+            var pictureID = provider.SelectAllPictures().Select(p => p.PictureID).First();
             var isFavorite = true;
 
             if (ID != null)
             {
-                var selectAllPictureOfAStack = SelectAllPictures().AsQueryable();
+                var selectAllPictureOfAStack = provider.SelectAllPictures().AsQueryable();
 
                 var viewPictureHelperSorted = Sorting(sortOrder, selectAllPictureOfAStack)
                                                     .Where(p => p.PictureStackID == int.Parse(ID))
@@ -304,7 +112,7 @@ namespace PhotoAlbum.Controllers
 
             else
             {
-                var selectAllPicturesStillInStack = SelectAllPictures().AsQueryable();
+                var selectAllPicturesStillInStack = provider.SelectAllPictures().AsQueryable();
 
                 var viewPictureHelperSorted = Sorting(sortOrder, selectAllPicturesStillInStack)
                                                     
@@ -343,39 +151,12 @@ namespace PhotoAlbum.Controllers
             return View(viewPictureViewModel);
         }
 
-        public List<ViewPictureHelper> SelectAllPicturesWhithoutLocation()
-        {
-            var querySelectAllPicturesWhithoutLocation = (from p in context.Pictures
-                                                          join pl in context.PictureLocations
-                                                          on p.ID equals pl.PictureID into jj
-                                                          from pl in jj.DefaultIfEmpty()
-                                                          where pl.LocationID.ToString() == null
-                                                          select new ViewPictureHelper
-                                                          {
-                                                              PictureID = p.ID,
-                                                              PictureName = p.Name,
-                                                              PictureDate = p.Date,
-                                                              PictureFavorite = p.Favorite,
-                                                              PictureStackID = p.StackID,
-                                                              PictureStackIsClassified = p.Stack.Classified,
-
-                                                              PictureNation = pl.Location.Nation,
-                                                              PictureCity = pl.Location.City,
-                                                              PicturePlaceType = pl.Location.Place.Name,
-                                                              PicturePlaceName = pl.Location.PlaceName
-                                                          })
-                                                            .Distinct()
-                                                            .ToList();
-
-            return querySelectAllPicturesWhithoutLocation;
-        }
-
         [HttpGet]
         public IActionResult AddPictureLocation(string stackID, string sortOrder)
         {
             ViewBag.Sorting = sortOrder;
 
-            var selectAllPicturesWithoutLocation = SelectAllPicturesWhithoutLocation();
+            var selectAllPicturesWithoutLocation = provider.SelectAllPicturesWhithoutLocation();
 
             var slectAllPictureWithoutLocationNotYetClassified = selectAllPicturesWithoutLocation
                                                                 .Where(p => p.PictureStackIsClassified == false)
@@ -449,41 +230,16 @@ namespace PhotoAlbum.Controllers
 
                 context.SaveChanges();
 
-                return Redirect(string.Format("/Picture/AddPIctureLocation/StackID={0}", _stackID));
+                return Redirect(string.Format("/Picture/AddPIctureLocation?StackID={0}", _stackID));
             }
 
             return View(addPictureLocationViewModel);
         }
 
-        public List<ViewPictureHelper> SelectAllPicturesWhithoutEvent()
-        {
-            var querySelectAllPicturesWhithoutEvent = (from p in context.Pictures
-                                                       join pe in context.PictureEvents
-                                                       on p.ID equals pe.PictureID into jj
-                                                       from pe in jj.DefaultIfEmpty()
-                                                       where pe.EventID.ToString() == null
-                                                       select new ViewPictureHelper
-                                                       {
-                                                           PictureID = p.ID,
-                                                           PictureName = p.Name,
-                                                           PictureDate = p.Date,
-                                                           PictureFavorite = p.Favorite,
-                                                           PictureStackID = p.StackID,
-                                                           PictureStackIsClassified = p.Stack.Classified,
-
-                                                           PictureEventName = pe.Event.Name,
-                                                           PictureEventType = pe.Event.EventType.Name
-                                                       })
-                                                          .Distinct()
-                                                          .ToList();
-
-            return querySelectAllPicturesWhithoutEvent;
-        }
-
         [HttpGet]
         public IActionResult AddPictureEvent(string stackID)
         {
-            var selectAllPicturesWithoutEvent = SelectAllPicturesWhithoutEvent();
+            var selectAllPicturesWithoutEvent = provider.SelectAllPicturesWhithoutEvent();
 
             var slectAllPictureWithoutEventNotYetClassified = selectAllPicturesWithoutEvent
                                                                 .Where(p => p.PictureStackIsClassified == false)
@@ -561,41 +317,16 @@ namespace PhotoAlbum.Controllers
 
                 context.SaveChanges();
 
-                return Redirect(string.Format("/Picture/AddPIctureEvent/StackID={0}", _stackID));
+                return Redirect(string.Format("/Picture/AddPIctureEvent?StackID={0}", _stackID));
             }
 
             return View(addPictureEventViewModel);
         }
 
-        public List<ViewPictureHelper> SelectAllPicturesWhithoutAuthor()
-        {
-            var querySelectAllPicturesWhithoutAuthor = (from p in context.Pictures
-                                                       join pa in context.PictureAuthors
-                                                       on p.ID equals pa.PictureID into jj
-                                                       from pa in jj.DefaultIfEmpty()
-                                                       where pa.AuthorID.ToString() == null
-                                                       select new ViewPictureHelper
-                                                       {
-                                                           PictureID = p.ID,
-                                                           PictureName = p.Name,
-                                                           PictureDate = p.Date,
-                                                           PictureFavorite = p.Favorite,
-                                                           PictureStackID = p.StackID,
-                                                           PictureStackIsClassified = p.Stack.Classified,
-
-                                                           PictureAuthorName = pa.Author.Name,
-                                                           PictureAuthorLastName = pa.Author.LastName
-                                                       })
-                                                          .Distinct()
-                                                          .ToList();
-
-            return querySelectAllPicturesWhithoutAuthor;
-        }
-
         [HttpGet]
         public IActionResult AddPictureAuthor(string stackID)
         {
-            var selectAllPicturesWithoutAuthor = SelectAllPicturesWhithoutAuthor();
+            var selectAllPicturesWithoutAuthor = provider.SelectAllPicturesWhithoutAuthor();
 
             var slectAllPictureWithoutAuthorNotYetClassified = selectAllPicturesWithoutAuthor
                                                                 .Where(p => p.PictureStackIsClassified == false)
@@ -673,37 +404,16 @@ namespace PhotoAlbum.Controllers
 
                 context.SaveChanges();
 
-                return Redirect(string.Format("/Picture/AddPIctureAuthor/StackID={0}", _stackID));
+                return Redirect(string.Format("/Picture/AddPIctureAuthor?StackID={0}", _stackID));
             }
 
             return View(addPictureAuthorViewModel);
         }
     
-        public List<ViewPictureHelper> SelectAllPicturesWhithoutPeople()
-        {
-            var querySelectAllPicturesWhithoutPeople = (from p in SelectAllPictures()
-                                                        where p.PicturePeopleIDs == null
-                                                        select new ViewPictureHelper
-                                                        {
-                                                            PictureID = p.PictureID,
-                                                            PictureName = p.PictureName,
-                                                            PictureDate = p.PictureDate,
-                                                            PictureFavorite = p.PictureFavorite,
-                                                            PictureStackID = p.PictureStackID,
-                                                            PictureStackIsClassified = p.PictureStackIsClassified,
-
-                                                            PicturePeopleIDs = p.PicturePeopleIDs
-                                                        })
-                                                          .Distinct()
-                                                          .ToList();
-
-            return querySelectAllPicturesWhithoutPeople;
-        }
-    
         [HttpGet]
         public IActionResult AddPicturePeople(string stackID)
         {
-            var selectAllPicturesWithoutPeople = SelectAllPicturesWhithoutPeople();
+            var selectAllPicturesWithoutPeople = provider.SelectAllPicturesWhithoutPeople();
 
             var slectAllPictureWithoutPeopleNotYetClassified = selectAllPicturesWithoutPeople
                                                                 .Where(p => p.PictureStackIsClassified == false)
@@ -717,7 +427,7 @@ namespace PhotoAlbum.Controllers
 
                 string _stackID = stackID;
 
-                var peopleNameList = SelectAllPictures().Select(p => p.PicturePeopleIDs).ToList();
+                var peopleNameList = provider.SelectAllPictures().Select(p => p.PicturePeopleIDs).ToList();
 
                 var pictureIDs = selectAllPictureOfAStackWithoutPeople.Select(p => p.PictureID).ToList();
 
@@ -746,7 +456,7 @@ namespace PhotoAlbum.Controllers
 
                 string _stackID = stackID;
 
-                var peopleNameList = SelectAllPictures().Select(p => p.PicturePeopleIDs).ToList();
+                var peopleNameList = provider.SelectAllPictures().Select(p => p.PicturePeopleIDs).ToList();
 
                 var pictureIDs = slectAllPictureWithoutPeopleNotYetClassified.Select(p => p.PictureID).ToList();
 
@@ -796,7 +506,7 @@ namespace PhotoAlbum.Controllers
 
                 context.SaveChanges();
 
-                return Redirect(string.Format("/Picture/AddPIcturePeople/StackID={0}", _stackID));
+                return Redirect(string.Format("/Picture/AddPIcturePeople?StackID={0}", _stackID));
             }
 
             return View(addPicturePeopleViewModel);
