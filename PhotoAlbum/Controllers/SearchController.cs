@@ -24,11 +24,12 @@ namespace PhotoAlbum.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(string locationID = "",
-                                    string eventID = "",
-                                    string authorID = "",
-                                    string people = "",
-                                    string search = "")
+        public IActionResult Index(string locationID,
+                                    string eventID,
+                                    
+                                    string people,
+                                    string search,
+                                    string authorID)
         {
             var locations = context.Locations.Include(p => p.Place).ToList();
             var events = context.Events.Include(p => p.EventType).ToList();
@@ -37,7 +38,7 @@ namespace PhotoAlbum.Controllers
 
             if (search == "Location")
             {
-                var queryLocation = provider.SelectAllPictures().Where(p => p.PictureLocationID == locationID).ToList();
+                var queryLocation = provider.SelectAllPictures().Where(p=>p.PictureLocationID== locationID).ToList();
 
                 SearchViewModel searchView = new SearchViewModel(queryLocation, locations, events, authors, peopleList);
 

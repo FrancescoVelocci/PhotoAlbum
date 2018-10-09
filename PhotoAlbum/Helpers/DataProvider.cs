@@ -115,6 +115,7 @@ namespace PhotoAlbum.Helpers
                                                        PictureStackID = p.StackID,
                                                        PictureStackIsClassified = p.Stack.Classified,
 
+                                                       PictureLocationID = pl.LocationID.ToString(),
                                                        PictureNation = pl.Location.Nation,
                                                        PictureCity = pl.Location.City,
                                                        PicturePlaceType = pl.Location.Place.Name,
@@ -135,6 +136,7 @@ namespace PhotoAlbum.Helpers
                                                                  PictureStackIsClassified = pp.PictureStackIsClassified,
                                                                  PicturePeopleIDs = pp.PicturePeopleIDs,
 
+                                                                 PictureLocationID = pl.PictureLocationID,
                                                                  PictureNation = pl.PictureNation,
                                                                  PictureCity = pl.PictureCity,
                                                                  PicturePlaceType = pl.PicturePlaceType,
@@ -148,6 +150,7 @@ namespace PhotoAlbum.Helpers
                                                 select new ViewPictureHelper
                                                 {
                                                     PictureID = p.ID,
+                                                    PictureEventID = pe.EventID.ToString(),
                                                     PictureEventName = pe.Event.Name,
                                                     PictureEventType = pe.Event.EventType.Name
                                                 }).ToList();
@@ -165,11 +168,13 @@ namespace PhotoAlbum.Helpers
                                                      PictureStackIsClassified = pl.PictureStackIsClassified,
                                                      PicturePeopleIDs = pl.PicturePeopleIDs,
 
+                                                     PictureLocationID = pl.PictureLocationID,
                                                      PictureNation = pl.PictureNation,
                                                      PictureCity = pl.PictureCity,
                                                      PicturePlaceType = pl.PicturePlaceType,
                                                      PicturePlaceName = pl.PicturePlaceName,
 
+                                                     PictureEventID = pe.PictureEventID,
                                                      PictureEventName = pe.PictureEventName,
                                                      PictureEventType = pe.PictureEventType
                                                  }).ToList();
@@ -181,6 +186,7 @@ namespace PhotoAlbum.Helpers
                                                  select new ViewPictureHelper
                                                  {
                                                      PictureID = p.ID,
+                                                     PictureAuthorID =pa.AuthorID.ToString(),
                                                      PictureAuthorName = pa.Author.Name,
                                                      PictureAuthorLastName = pa.Author.LastName
                                                  }).ToList();
@@ -198,14 +204,17 @@ namespace PhotoAlbum.Helpers
                                       PictureStackIsClassified = ple.PictureStackIsClassified,
                                       PicturePeopleIDs = ple.PicturePeopleIDs,
 
+                                      PictureLocationID = ple.PictureLocationID,
                                       PictureNation = ple.PictureNation,
                                       PictureCity = ple.PictureCity,
                                       PicturePlaceType = ple.PicturePlaceType,
                                       PicturePlaceName = ple.PicturePlaceName,
 
+                                      PictureEventID = ple.PictureEventID,
                                       PictureEventName = ple.PictureEventName,
                                       PictureEventType = ple.PictureEventType,
 
+                                      PictureAuthorID = pa.PictureAuthorID,
                                       PictureAuthorName = pa.PictureAuthorName,
                                       PictureAuthorLastName = pa.PictureAuthorLastName
                                   }).ToList();

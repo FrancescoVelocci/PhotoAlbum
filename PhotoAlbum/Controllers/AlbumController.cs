@@ -38,7 +38,6 @@ namespace PhotoAlbum.Controllers
         {
             AddAlbumViewModel addAlbumViewModel = new AddAlbumViewModel();
             
-
             return View(addAlbumViewModel);
         }
 
@@ -101,7 +100,6 @@ namespace PhotoAlbum.Controllers
                          }).ToList();
 
             ViewPictureAlbumViewModel viewPictureAlbumViewModel = new ViewPictureAlbumViewModel(query, _albumID);
-
 
             return View(viewPictureAlbumViewModel);
         }
