@@ -26,7 +26,7 @@ namespace PhotoAlbum.ViewModels
         public SearchViewModel()
         { }
 
-        public SearchViewModel(List<ViewPictureHelper> viewPictureHelpers, 
+        public SearchViewModel(List<ViewPictureHelper> viewPictureHelpers,
                                 IEnumerable<Location> locations,
                                 IEnumerable<Event> events,
                                 IEnumerable<Author> authors,
@@ -35,6 +35,18 @@ namespace PhotoAlbum.ViewModels
             ViewPictureHelpers = viewPictureHelpers;
 
             Locations = new List<SelectListItem>();
+            Locations.Add(new SelectListItem
+            {
+                Value = "0",
+                Text = "   "
+            });
+
+            Locations.Add(new SelectListItem
+            {
+                Value = "null",
+                Text = "No Location"
+            });
+
             foreach (var i in locations)
             {
                 Locations.Add(new SelectListItem
@@ -43,8 +55,21 @@ namespace PhotoAlbum.ViewModels
                     Text = i.Nation + ", " + i.City + " - " + i.Place.Name + ": " + i.PlaceName
                 });
             }
+            
 
             Events = new List<SelectListItem>();
+            Events.Add(new SelectListItem
+            {
+                Value = "0",
+                Text = "   "
+            });
+
+            Events.Add(new SelectListItem
+            {
+                Value = "null",
+                Text = "No Event"
+            });
+
             foreach (var i in events)
             {
                 Events.Add(new SelectListItem
@@ -55,6 +80,18 @@ namespace PhotoAlbum.ViewModels
             }
 
             Authors = new List<SelectListItem>();
+            Authors.Add(new SelectListItem
+            {
+                Value = "0",
+                Text = "   "
+            });
+
+            Authors.Add(new SelectListItem
+            {
+                Value = "null",
+                Text = "Not Author"
+            });
+
             foreach (var i in authors)
             {
                 Authors.Add(new SelectListItem

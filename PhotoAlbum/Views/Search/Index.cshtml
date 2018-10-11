@@ -6,39 +6,42 @@
 
 <h1>@ViewData["Title"]</h1>
 
+
+
 <form method="get" asp-controller="Search" asp-action="">
     <div class="form-group">
         <label asp-for="LocationID">Location</label>
         <select asp-for="LocationID" asp-items="Model.Locations"></select>
-        <button type="submit" name="search" value="Location">Search</button>
     </div>
-</form>
 
-<form method="get" asp-controller="Search" asp-action="">
     <div class="form-group">
         <label asp-for="EventID">Event</label>
         <select asp-for="EventID" asp-items="Model.Events"></select>
-        <button type="submit" name="search" value="Event">Search</button>
     </div>
-</form>
 
-<form method="get" asp-controller="Search" asp-action="">
     <div class="form-group">
         <label asp-for="AuthorID">Author</label>
         <select asp-for="AuthorID" asp-items="Model.Authors"></select>
-        <button type="submit" name="search" value="Author">Search</button>
+    </div>
+
+    <div>
+        <strong>People</strong><br/>
+        @foreach (var i in Model.PeopleList)
+        {
+            <label>
+                @i.Name @i.LastName
+                <input type="checkbox" name="People" value="@i.Name @i.LastName" />
+            </label>
+        }
+
+    </div>
+   <br/>
+    <div>
+        <button type="submit" name="search" value="search">Search</button>
     </div>
 </form>
+<br/>
 
-<form method="get" asp-controller="Search" asp-action="">
-    @foreach (var i in Model.PeopleList)
-    {
-        <label>@i.Name @i.LastName
-            <input type="checkbox" name="People" value="@i.Name @i.LastName" />
-        </label>
-    }
-        <button type="submit" name="search" value="People">Search</button>
-</form>
 
 <table class="table">
     <tr>
@@ -107,11 +110,11 @@
                 }
                 else
                 {
-                    @foreach(var c in @item.PicturePeopleIDs.Split(",").ToList())
+                    @foreach (var c in @item.PicturePeopleIDs.Split(",").ToList())
                     {
-                        @c<br/>
+                        @c<br />
                     };
-                }
+               }
             </td>
         </tr>
     }
