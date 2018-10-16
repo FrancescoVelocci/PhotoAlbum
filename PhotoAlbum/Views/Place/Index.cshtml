@@ -1,7 +1,10 @@
 ﻿@model List<PhotoAlbum.Models.Place>
 
-<h1>Places</h1>
+@{
+    ViewData["Title"] = "Places";
+}
 
+<h1 class="text-primary pt text-center bg-primary">@ViewData["Title"]</h1>
 
 @foreach (var place in Model)
 {
@@ -10,11 +13,9 @@
     </ul>
 }
 
-<a asp-controller="Place" asp-action="Add">Add Place</a>
-
 @if (Model.Count == 0)
 {
     <p>No place yet!</p>
 }
 
-<a asp-controller="Place" asp-action="Add">Add</a>
+<a asp-controller="Place" asp-action="Add" class="btn btn-info">Add</a>

@@ -1,6 +1,10 @@
 ﻿@model PhotoAlbum.ViewModels.AddPlaceViewModel
 
-<h1>Add Place</h1>
+@{
+    ViewData["Title"] = "Add Place";
+}
+
+<h1 class="text-primary pt text-center bg-primary">@ViewData["Title"]</h1>
 
 <form asp-controller="Place" asp-action="Add" method="POST">
 
@@ -10,8 +14,11 @@
         <span asp-validation-for="Name"></span>
     </div>
 
-    <input type="submit" value="Add Place" />
+    <div class="inline">
+        <input type="submit" value="Add" class="btn btn-info" />
+        <a href="/Location/Add" class="btn btn-default">Add a new Location</a>
+    </div>
 
 </form>
 
-<a href="Location/Add">Add a new Location</a>
+

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Events";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="text-primary pt text-center bg-primary">@ViewData["Title"]</h1>
 
 
 <table class="table">
@@ -30,4 +30,4 @@
     <p>No event yet!</p>
 }
 
-<a asp-controller="Event" asp-action="Add">Add Event</a>
+<a asp-controller="Event" asp-action="Add" class="btn btn-primary">Add Event</a>

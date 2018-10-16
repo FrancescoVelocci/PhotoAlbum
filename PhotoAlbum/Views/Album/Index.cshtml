@@ -4,14 +4,14 @@
     ViewData["Title"] = "Albums";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1  class="text-primary pt text-center bg-primary">@ViewData["Title"]</h1>
 
 
 <table class="table">
     <tr>
         <th>Name</th>
         <th>Description</th>
-        <th>DateTime</th>
+        <th>Date</th>
         <th> </th>
         <th> </th>
     </tr>
@@ -21,10 +21,10 @@
         <td>@album.Name</td>
         <td>@album.Description</td>
         <td>@album.DateTime.ToShortDateString()</td>
-        <td><a asp-controller="Album" asp-action="View" asp-route-id="@album.ID">OPEN</a></td>
-        <td><a asp-controller="Album" asp-action="AddPictureAlbum" asp-route-id="@album.ID">ADD PICTURE</a></td>
+        <td><a asp-controller="Album" asp-action="View" asp-route-id="@album.ID" class="btn btn-default">Open</a></td>
+        <td><a asp-controller="Album" asp-action="AddPictureAlbum" asp-route-id="@album.ID" class="btn btn-default">Add Picture</a></td>
     </tr>
     }
 </table>  
 
-<a asp-controller="Album" asp-action="AddAlbum">Create a new Album</a>     
+<a asp-controller="Album" asp-action="AddAlbum" class="btn btn-info">Create a new Album</a>     

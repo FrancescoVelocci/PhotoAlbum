@@ -4,7 +4,7 @@
     ViewData["Title"] = "Add People";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="text-primary pt text-center bg-primary">@ViewData["Title"]</h1>
 
 
 
@@ -22,32 +22,32 @@
         <span asp-validation-for="LastName"></span>
     </div>
 
-    <div class="dropdown">
-        <label name="gender">Gender</label>
-        <select name="gender">
-            @foreach (string gender in ViewBag.GenderList)
-            {
-                <option value="@gender">@gender</option>
-            }
-        </select>
-    </div>
-
-    <div class="dropdown">
-        <label name="relation">Relation</label>
-        <select name="relation">
-            @foreach (string relation in ViewBag.RelationList)
-            {
-                <option value="@relation">@relation</option>
-            }
-        </select>
-    </div>
-
     <div class="form-group">
         <label asp-for="Birthday"></label>
         <input class="form-control" asp-for="Birthday" />
         <span asp-validation-for="Birthday"></span>
     </div>
 
-    <input type="submit" value="Add People" />
+        <div class="dropdown">
+            <label name="gender">Gender</label>
+            <select name="gender">
+                @foreach (string gender in ViewBag.GenderList)
+            {
+                <option value="@gender">@gender</option>
+        }
+            </select>
+        </div>
+
+        <div class="dropdown">
+            <label name="relation">Relation</label>
+            <select name="relation">
+                @foreach (string relation in ViewBag.RelationList)
+            {
+                <option value="@relation">@relation</option>
+        }
+            </select>
+        </div>
+
+    <input type="submit" value="Add People" class="btn btn-info" />
 
 </form>

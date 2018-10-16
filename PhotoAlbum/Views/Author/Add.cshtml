@@ -4,7 +4,7 @@
     ViewData["Title"] = "Authors";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="text-primary pt text-center bg-primary">@ViewData["Title"]</h1>
 
 <form method="post" asp-controller="Author" asp-action="Add">
 
@@ -23,12 +23,12 @@
 
     <div class="checkbox" >
         <label asp-for="Professional">
-            <input asp-for="Professional" />Profesional
+            <input asp-for="Professional" />Check if a profesional
         </label>
     </div>
 
     <div>
-        <input type="submit" value="Add Author" />
+        <input type="submit" value="Add" class="btn btn-info"/>
     </div>
 
 </form>

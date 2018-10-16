@@ -5,24 +5,20 @@
     ViewData["Title"] = "Add Event Info to your Pictures";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="text-primary pt text-center bg-primary">@ViewData["Title"]</h1>
 
-<p>You have @Model.PictureIDs.Count() pictures left.</p><br />
+<h5>You have @Model.PictureIDs.Count() pictures left.</h5><br />
 
-<table>
-    <tr>
-        <th>SORT BY</th>
-        <th></th>
-    </tr>
-    <tr>
-        <td>Date</td>
-        <td>
+
             @if (@ViewBag.Sorting == "Asc")
             {
                 <form method="get" asp-controller="Picture" asp-action="AddPictureEvent">
                     <input type="hidden" name="sortOrder" value="Desc" />
                     <input type="hidden" name="StackID" value="@Model.StackID" />
-                    <button>Descendent</button>
+                    <label >
+                        Sort by date:
+                        <button class="btn btn-default">Descendent</button>
+                    </label>
                 </form>
             }
             else
@@ -30,12 +26,13 @@
                 <form method="get" asp-controller="Picture" asp-action="AddPictureEvent">
                     <input type="hidden" name="sortOrder" value="Asc" />
                     <input type="hidden" name="StackID" value="@Model.StackID" />
-                    <button>Ascendent</button>
+                    <label >
+                        Sort by date:
+                        <button class="btn btn-default">Ascendent</button>
+                    </label>
                 </form>
             }
-        </td>
-    </tr>
-</table>
+
 <br />
 
 <form method="post" asp-controller="Picture" asp-action="AddPictureEvent">
@@ -45,7 +42,7 @@
     <div class="form-group">
         <label asp-for="EventID">Event</label>
         <select asp-for="EventID" asp-items="Model.Events"></select>
-        <a href="/Event/Add"> Add a new Event </a>
+        <a href="/Event/Add" class="btn"> +Add a new Event </a>
     </div>
 
     <br />
@@ -76,7 +73,7 @@
         </table>
     </div>
 
-    <input type="submit" value="Add Event" />
+    <input type="submit" value="Add Event" class="btn btn-info"/>
 
 </form>
 

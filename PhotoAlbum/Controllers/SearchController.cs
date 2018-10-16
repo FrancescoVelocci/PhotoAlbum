@@ -38,26 +38,6 @@ namespace PhotoAlbum.Controllers
             var authors = context.Authors.ToList();
             var peopleList = context.PeopleDb.ToList();
 
-            /*if (search == "People")
-            {
-                var queryAllPicture = provider.SelectAllPictures().ToList();
-
-                List<ViewPictureHelper> _queryPeople = new List<ViewPictureHelper>();
-                foreach (var i in queryAllPicture)
-                {
-                    if (i.PicturePeopleIDs is null)
-                    {
-                        continue;
-                    }
-
-                    else
-                    {
-                        _queryPeople.Add(i);
-                    }
-                }
-
-                var queryPeople = _queryPeople.Where(p => p.PicturePeopleIDs.Contains(people)).ToList();                
-            }*/
             if (search == "search")
             {
                 Dictionary<string, string> dictSearchingParameters = new Dictionary<string, string>()

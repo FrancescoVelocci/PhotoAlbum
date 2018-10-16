@@ -1,6 +1,10 @@
 ﻿@model PhotoAlbum.ViewModels.AddLocationViewModel
 
-<h1>Add Location</h1>
+@{
+    ViewData["Title"] = "Add Location";
+}
+
+<h1 class="text-primary pt text-center bg-primary">@ViewData["Title"]</h1>
 
 <form asp-controller="Location" asp-action="Add" method="POST">
 
@@ -20,14 +24,15 @@
         <label asp-for="PlaceID">Place Type</label>
         <select asp-for="PlaceID" asp-items="Model.Places"></select>
         <span asp-validation-for="PlaceID"></span>
+        <a asp-controller="Place" asp-action="Add" class="btn">+Add a new Place Type</a>
     </div>
-    <a asp-controller="Place" asp-action="Add">Add a new Place Type</a> | Edit | Remove
+    
 
     <div class="form-group">
         <label asp-for="PlaceName">Place Name</label>
         <input class="form-control" asp-for="PlaceName" />
     </div>
 
-    <input type="submit" value="Add Place" />
+    <input type="submit" value="Add" class="btn btn-info"/>
 
 </form>

@@ -4,7 +4,7 @@
     ViewData["Title"] = "People";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="text-primary pt text-center bg-primary">@ViewData["Title"]</h1>
 
 <table class="table">
     <tr>
@@ -31,4 +31,4 @@
     <p>No people yet!</p>
 }
 
-<a asp-controller="People" asp-action="Add">Add</a>
+<a asp-controller="People" asp-action="Add" class="btn btn-info">Add</a>

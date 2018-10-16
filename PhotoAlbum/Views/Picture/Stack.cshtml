@@ -5,41 +5,30 @@
     ViewData["Title"] = "Photo Stack";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="text-primary pt text-center bg-primary">@ViewData["Title"]</h1>
 
-<p>You have @Model.ViewPictureHelpers.Count() pictures in this Stack.</p><br />
+<h5>You have @Model.ViewPictureHelpers.Count() pictures in this Stack.</h5><br />
 
-<ul>
-    <li>
-        <a href="/Picture/AddPictureLocation?StackID=@ViewBag.StackID"> Add Location's info to the Picture </a>
-    </li>
-    <li>
-        <a href="/Picture/AddPictureEvent?StackID=@ViewBag.StackID"> Add Event's info to the Picture </a>
-    </li>
-    <li>
-        <a href="/Picture/AddPictureAuthor?StackID=@ViewBag.StackID"> Add Author's info to the Picture </a>
-    </li>
-    <li>
-        <a href="/Picture/AddPicturePeople?StackID=@ViewBag.StackID"> Add People's info to the Picture </a>
-    </li>
-</ul>
 
+                                                                           <div class="inline">
+                                                                               Select the type of info to add to your pictures:
+                                                                               <a href="/Picture/AddPictureLocation?StackID=@ViewBag.StackID" class="btn btn-info"> Add Location </a>
+                                                                               <a href="/Picture/AddPictureEvent?StackID=@ViewBag.StackID" class="btn btn-info"> Add Event </a>
+                                                                               <a href="/Picture/AddPictureAuthor?StackID=@ViewBag.StackID" class="btn btn-info"> Add Author </a>
+                                                                               <a href="/Picture/AddPicturePeople?StackID=@ViewBag.StackID" class="btn btn-info"> Add People </a>
+                                                                           </div>
 <br />
 
-<table>
-    <tr>
-        <th>SORT BY</th>
-        <th></th>
-    </tr>
-    <tr>
-        <td>Date</td>
-        <td>
+
             @if (@ViewBag.Sorting == "Asc")
             {
                 <form method="get" asp-controller="Picture" asp-action="Stack">
                     <input type="hidden" name="sortOrder" value="Desc" />
                     <input type="hidden" name="ID" value="@Model.ID" />
-                <button>Descendent</button>
+                    <label >
+                        Sort by date:
+                        <button class="btn btn-default">Descendent</button>
+                    </label>
                 </form>
             }
             else
@@ -47,12 +36,13 @@
                 <form method="get" asp-controller="Picture" asp-action="Stack">
                     <input type="hidden" name="sortOrder" value="Asc" />
                     <input type="hidden" name="ID" value="@Model.ID" />
-                    <button>Ascendent</button>
+                    <label >
+                        Sort by date:
+                        <button class="btn btn-default">Ascendent</button>
+                    </label>
                 </form>
             }
-        </td>
-    </tr>
-</table>
+
 
 <table class="table">
     <tr>

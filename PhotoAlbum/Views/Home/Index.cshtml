@@ -2,33 +2,48 @@
     ViewData["Title"] = "Home Page";
 }
 
-<h1>PhotoAlbum</h1>
+<div class="col-xs-12 col-lg-12">
+    <h1 class="text-primary pt text-center bg-primary">picSidekick</h1>
+    <!-- graphic element -->
+    <div>
+        <img src="/photoes.jpg" class="img-responsive" />
+        <br />
+        <blockquote class=" ">You can always rely on picSidekick, your photo album rescuer!</blockquote>
+        <footer>- Enthusiastic user</footer>
+    </div>
+</div>
 
+<!-- main actions -->
+<div class="col-xs-12 col-md-6 col-lg-5 text-center">
+    <h3 class="text-primary">ORGANIZE</h3>
+    <ul class="list-unstyled">
+        <li style="margin-bottom:0.5em;"> <a asp-controller="Upload" class="btn btn-primary btn-lg btn-block"> Upload a Stack of Pictures</a> </li>
+        <li style="margin-bottom:0.5em;"> <a asp-controller="Stack" class="mb btn btn-primary btn-lg  btn-block"> Add info to your Pictures</a> </li>
+        <li> <a asp-controller="Album" asp-action="AddAlbum" class="mb btn btn-primary btn-lg  btn-block"> Create a new Album</a> </li>
+    </ul>
+</div>
 
-    <table>
-        <col width="200">
-        <col width="200">
-        <thead>
-            <tr>
-                <td><h4>ORGANIZE</h4></td>
-                <td><h4>SEARCH</h4></td>
-            </tr>
-        </thead>
-        <tr>
-            <td><a asp-controller="Upload">Upload a Stack of Pictures</a></td>
-            <td><a asp-controller="Picture">View Pictures</a></td>
-        </tr>
-        <tr>
-            <td><a asp-controller="Stack">Add info to your Pictures</a></td>
-            <td><a asp-controller="Album">View Albums</a></></td>
-        </tr>
-        <tr>
-            <td><a asp-controller="Album" asp-action="AddAlbum">Create a new Album</a></td>
-            <td><a asp-controller="Search" asp-action="">Search Pictures</a></td>
-        </tr>
-    </table>
+<div class="col-xs-0 col-md-0 col-lg-2 text-center">
+</div>
 
+<div class="col-xs-12 col-md-6 col-lg-5 text-center">
+    <h3 class="text-info">SEARCH</h3>
+    <ul class="list-unstyled">
+        <li style="margin-bottom:0.5em;">  <a asp-controller="Picture" class="btn btn-info btn-lg  btn-block">View Pictures</a> </li>
+        <li style="margin-bottom:0.5em;">  <a asp-controller="Album" class="btn btn-info btn-lg  btn-block"> View Albums</a> </li>
+        <li> <a asp-controller="Search" asp-action="" class="btn btn-info btn-lg btn-block"> Search Pictures</a> </li>
+    </ul>
+    <br />
+</div>
 <br />
-<br/>
-<h4>Manage Picture Information</h4>
-<a asp-controller="Location">Locations</a> | <a asp-controller="Event">Events</a> | <a asp-controller="Author">Authors</a> | <a asp-controller="People">People</a>
+<br />
+<div class="col-xs-12 col-lg-12">
+    <h3>Manage Picture Information</h3>
+    <div class="inline">
+        <a asp-controller="Location" class="btn btn-default">Locations</a>
+        <a asp-controller="Event" class="btn btn-default">Events</a>
+        <a asp-controller="Author" class="btn btn-default">Authors</a>
+        <a asp-controller="People" class="btn btn-default">People</a>
+    </div>
+    
+</div>

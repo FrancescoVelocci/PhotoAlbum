@@ -5,24 +5,20 @@
     ViewData["Title"] = "Add Author Info to your Pictures";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="text-primary pt text-center bg-primary">@ViewData["Title"]</h1>
 
-<p>You have @Model.PictureIDs.Count() pictures left.</p><br />
+<h5>You have @Model.PictureIDs.Count() pictures left.</h5><br/>
 
-<table>
-    <tr>
-        <th>SORT BY</th>
-        <th></th>
-    </tr>
-    <tr>
-        <td>Date</td>
-        <td>
+
             @if (@ViewBag.Sorting == "Asc")
             {
                 <form method="get" asp-controller="Picture" asp-action="AddPictureAuthor">
                     <input type="hidden" name="sortOrder" value="Desc" />
                     <input type="hidden" name="StackID" value="@Model.StackID" />
-                    <button>Descendent</button>
+                    <label >
+                        Sort by date:
+                        <button class="btn btn-default">Descendent</button>
+                    </label>
                 </form>
             }
             else
@@ -30,13 +26,13 @@
                 <form method="get" asp-controller="Picture" asp-action="AddPictureAuthor">
                     <input type="hidden" name="sortOrder" value="Asc" />
                     <input type="hidden" name="StackID" value="@Model.StackID" />
-                    <button>Ascendent</button>
+                    <label>
+                        Sort by date:
+                        <button class="btn btn-default">Ascendent</button>
+                    </label>
                 </form>
             }
-        </td>
-    </tr>
-</table>
-<br />
+
 
 <form method="post" asp-controller="Picture" asp-action="AddPictureAuthor">
 
@@ -45,7 +41,7 @@
     <div class="form-group">
         <label asp-for="AuthorID">Author</label>
         <select asp-for="AuthorID" asp-items="Model.Authors"></select>
-        <a href="/Author/Add"> Add a new Author </a>
+        <a href="/Author/Add" class="btn"> +Add a new Author </a>
     </div>
 
     <br />
@@ -76,6 +72,6 @@
         </table>
     </div>
 
-    <input type="submit" value="Add Author" />
+    <input type="submit" value="Add Author" class="btn btn-info"/>
 
 </form>

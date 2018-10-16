@@ -1,11 +1,15 @@
 ﻿@model List<PhotoAlbum.Models.Location>
 
-<h1>Location</h1>
+@{
+    ViewData["Title"] = "Location";
+}
+
+<h1 class="text-primary pt text-center bg-primary">@ViewData["Title"]</h1>
 
 <table class="table">
 
     <tr>
-        <th>Nation</th>
+        <th>Country</th>
         <th>City</th>
         <th><a asp-controller="Place">Place</a></th>
     </tr>
@@ -26,5 +30,5 @@
     <p>No location yet!</p>
 }
 
-<p><a asp-controller="Location" asp-action="Add">Add</a> | <a asp-controller="Location" asp-action="Remove">Remove</a></p>
+<a asp-controller="Location" asp-action="Add" class="btn btn-info">Add</a>
 

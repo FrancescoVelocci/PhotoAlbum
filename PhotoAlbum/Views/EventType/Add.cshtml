@@ -3,7 +3,7 @@
 @{ ViewData["Title"] = "Add Event Type";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="text-primary pt text-center bg-primary">@ViewData["Title"]</h1>
 
 <form method="post" asp-controller="EventType" asp-action="Add">
 
@@ -14,8 +14,9 @@
         <p>@ViewBag.Validation</p>
     </div>
     
-
-    <input type="submit" value="Add Event Type" />
+    <div class="inline">
+        <input type="submit" value="Add" class="btn btn-info" />
+        <a asp-controller="Event" asp-action="Add" class="btn btn-default">Add a new Event</a>
+    </div>
 </form>
 
-<a href="Event/Add">Add a new Event</a>

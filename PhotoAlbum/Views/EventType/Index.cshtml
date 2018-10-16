@@ -3,7 +3,7 @@
 @{ ViewData["Title"] = "Event Type";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="text-primary pt text-center bg-primary">@ViewData["Title"]</h1>
 
 
 @foreach (EventType eventType in Model)
@@ -13,6 +13,8 @@
     </ul>
 }
 
-<a asp-controller="EventType" asp-action="Add">Add Event Type</a>
-<a asp-controller="Event" asp-action="Add">Add a new Event</a>
+    <div class="inline">
+        <a asp-controller="EventType" asp-action="Add" class="btn btn-info">Add a new Type</a>
+        <a asp-controller="Event" asp-action="Add" class="btn btn-default">Add a new Event</a>
+    </div>
 

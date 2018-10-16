@@ -3,7 +3,7 @@
 @{ ViewData["Title"] = "Add Event";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="text-primary pt text-center bg-primary">@ViewData["Title"]</h1>
 
 <form method="post" asp-controller="Event" asp-action="Add">
     <div class="form-group">
@@ -20,8 +20,9 @@
     <div class="form-group">
         <label asp-for="EventTypeID">Event Type</label>
         <select asp-for="EventTypeID" asp-items="Model.EventTypes"></select>
+        <a asp-controller="EventType" asp-action="Add" class="btn btn">+Add a new Event Type</a>
     </div>
-        <a asp-controller="EventType" asp-action="Add">Add a new Event Type</a> | Edit | Remove
-    <br>
-    <input type="submit" value="Add Event" />
+
+    <input type="submit" value="Add" class="btn btn-primary" />
+
 </form>

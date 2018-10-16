@@ -4,7 +4,7 @@
     ViewData["Title"] = "Create a new Albums";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="text-primary pt text-center bg-primary">@ViewData["Title"]</h1>
 
 
 <form method="post" asp-controller="Album" asp-action="AddAlbum">
@@ -21,7 +21,7 @@
     </div>
 
     <div>
-        <input type="submit" value="Create Album" />
+        <input type="submit" value="Create Album" class="btn btn-info"/>
     </div>
 
 </form>

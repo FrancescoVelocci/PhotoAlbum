@@ -2,13 +2,14 @@
     ViewData["Title"] = "Pictures";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="text-primary pt text-center bg-primary">@ViewData["Title"]</h1>
 
-<p>You uploaded @ViewData["Number Of Pictures"] pictures!</p><br />
+<h5>You uploaded @ViewData["Number Of Pictures"] pictures!</h5><br />
 
-
-<a asp-controller="Stack" asp-action="Index">View Picture's Stacks</a>
-<a asp-controller="Upload" asp-action="Index">Add More Pictures</a>
+<div class="inline">
+<a asp-controller="Stack" asp-action="Index" class="btn btn-info">View Picture's Stacks</a>
+<a asp-controller="Upload" asp-action="Index" class="btn btn-default">Add More Pictures</a>
+</div>
 
 
 

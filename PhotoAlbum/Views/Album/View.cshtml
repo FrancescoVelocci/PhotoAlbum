@@ -4,40 +4,37 @@
     ViewData["Title"] = "Album";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="text-primary pt text-center bg-primary">@ViewData["Title"]</h1>
+
 @foreach (var i in ViewBag.AlbumName)
 {
     <h3>@i</h3>
 }
 
-<p>You have @Model.ViewPictureHelpers.Count() pictures.</p><br />
+<h4>You have @Model.ViewPictureHelpers.Count() pictures.</h4><br />
 
 
-<table>
-    <tr>
-        <th>SORT BY</th>
-        <th></th>
-    </tr>
-    <tr>
-        <td>Date</td>
-        <td>
             @if (@ViewBag.Sorting == "Asc")
             {
-                <form method="get" asp-controller="Picture" asp-action="">
-                    <input type="hidden" name="sortOrder" value="Desc" />
-                    <button>Descendent</button>
-                </form>
+            <form method="get" asp-controller="Picture" asp-action="">
+                <input type="hidden" name="sortOrder" value="Desc" />
+                <label class="text-primary">
+                    Sort by date:
+                    <button class="btn btn-info">Descendent</button>
+                </label>
+            </form>
             }
             else
             {
-                <form method="get" asp-controller="Picture" asp-action="">
-                    <input type="hidden" name="sortOrder" value="Asc" />
-                    <button>Ascendent</button>
-                </form>
+            <form method="get" asp-controller="Picture" asp-action="">
+                <input type="hidden" name="sortOrder" value="Asc" />
+                <label class="text-primary">
+                    Sort by date:
+                    <button class="btn btn-info">Ascendent</button>
+                </label>
+            </form>
             }
-        </td>
-    </tr>
-</table>
+
 
 <table class="table">
     <tr>

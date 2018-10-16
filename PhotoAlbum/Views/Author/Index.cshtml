@@ -4,7 +4,7 @@
     ViewData["Title"] = "Authors";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="text-primary pt text-center bg-primary">@ViewData["Title"]</h1>
 
 <table class="table">
         <tr>
@@ -40,4 +40,4 @@
     <p>No author yet!</p>
 }
 
-<a asp-controller="Author" asp-action="Add">Add</a>
+<a asp-controller="Author" asp-action="Add" class="btn btn-info">Add Author</a>
